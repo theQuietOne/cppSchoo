@@ -1,0 +1,188 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+int enterNums(int&, int&, int&, int&, int&, int&);
+void generateNums(int&, int&, int&, int&, int&, int&, int);
+int compareNums(int[], int[]);
+void main()
+{
+	int one = 0, two = 0, three = 0, four = 0, five = 0, pwr = 0, max = 0, outcome=0;
+	int FIVE = 0, FOURW=0, FOUR=0, THREEW=0, THREE=0, NOW=0, NO=0;
+	int nums[6], pwrNums[6];
+	bool potato;
+	max = enterNums(one, two, three, four, five, pwr);
+	nums[0] = one;
+	nums[1] = two;
+	nums[2] = three;
+	nums[3] = four;
+	nums[4] = five;
+	nums[5] = pwr;
+	while (potato == true)
+	{
+		generateNums(one, two, three, four, five, pwr, max);
+		pwrNums[0] = one;
+		pwrNums[1] = two;
+		pwrNums[2] = three;
+		pwrNums[3] = four;
+		pwrNums[4] = five;
+		pwrNums[5] = pwr;
+		outcome = compareNums(nums, pwrNums);
+		if (outcome == 70)
+			potato = false;
+		if (outcome == 60)
+			FIVE++;
+		if (outcome == 50)
+			FOURW++;
+		if (outcome == 40)
+			FOUR++;
+		if (outcome == 30)
+			THREEW++;
+		if (outcome == 20)
+			THREE++;
+		if (outcome == 10)
+			NOW++;
+		if (outcome == 0)
+			NO++;
+	}
+	cout << "There were :" << endl;
+	cout << FIVE << " with five matching but no powerball," << endl;
+	cout << FOURW << " with four matching and a powerball," << endl;
+	cout << FOUR << " with four matching but no powerball," << endl;
+	cout << THREEW << " with three matching and a powerball," << endl;
+	cout << THREE << " with three matching but no powerball," << endl;
+	cout << NOW << " with less than three matching and a powerball," << endl;
+	cout << NO << " with less than three matching," << endl;
+	cout << "For a grand total of" << FIVE + FOURW + FOUR + THREEW + THREE + NOW + NO<<" tickets.  That's expensive!";
+	_getch();						//remove the underscore once you go back to 2010!!!
+}
+int enterNums(int& one, int& two, int& three, int& four, int& five, int& pwr)
+{
+	int max = 0, nums[5], swap = 0;
+	bool moo = true;
+	while (moo == true)
+	{
+		moo = false;
+		cout << "Enter a max!" << endl;
+		cin >> max;
+		cout << "Enter 5 DIFFERENT numbers which are below your max!" << endl;
+		cin >> nums[0];
+		cin >> nums[1];
+		cin >> nums[2];
+		cin >> nums[3];
+		cin >> nums[4];
+		cout << "Enter a powerball number!" << endl;
+		cin >> pwr;
+		for (int outer = 0; outer < 5; outer++)
+		{
+			if (nums[outer] == pwr)
+				moo = true;
+			if (nums[outer] > max)
+				moo = true;
+			for (int inner = 1; inner < 5; inner++)
+				if (outer != inner)
+					if (nums[outer] == nums[inner])
+						moo = true;
+		}
+	}
+	moo = true;
+	while (moo == true)
+	{
+		moo = false;
+		for (int beelzebub = 0; beelzebub < 5; beelzebub++)
+		{
+			for (int cthulhu = 0; cthulhu < beelzebub; cthulhu++)
+				if (cthulhu < beelzebub)
+					if (nums[beelzebub] < nums[cthulhu])
+					{
+						swap = nums[cthulhu];
+						nums[cthulhu] = nums[beelzebub];
+						nums[beelzebub] = swap;
+						moo = true;
+					}
+		}
+	}
+	one = nums[0];
+	two = nums[1];
+	three = nums[2];
+	four = nums[3];
+	five = nums[4];
+	return max;
+}
+void generateNums(int& one, int& two, int& three, int& four, int& five, int& pwr, int max)
+{
+	int max = 0, nums[5], swap = 0;
+	bool moo = true;
+	while (moo == true)
+	{
+		moo = false;
+		//nums[0];						//These need randomization!!!!
+		//nums[1];
+		//nums[2];
+		//nums[3];
+		//nums[4];
+		//pwr;
+		for (int outer = 0; outer < 5; outer++)
+		{
+			if (nums[outer] == pwr)
+				moo = true;
+			if (nums[outer] > max)
+				moo = true;
+			for (int inner = 1; inner < 5; inner++)
+				if (outer != inner)
+					if (nums[outer] == nums[inner])
+						moo = true;
+		}
+	}
+	moo = true;
+	while (moo == true)
+	{
+		moo = false;
+		for (int beelzebub = 0; beelzebub < 5; beelzebub++)
+		{
+			for (int cthulhu = 0; cthulhu < beelzebub; cthulhu++)
+				if (cthulhu < beelzebub)
+					if (nums[beelzebub] < nums[cthulhu])
+					{
+						swap = nums[cthulhu];
+						nums[cthulhu] = nums[beelzebub];
+						nums[beelzebub] = swap;
+						moo = true;
+					}
+		}
+	}
+}
+int compareNums(int nums[], int pwrNums[])
+{
+	int sameThings = 0;
+	bool pwrSame = false;
+	if (nums[5] == pwrNums[5])
+		pwrSame = true;
+	for (int thing = 0; thing < 5; thing++)
+		if (nums[thing] == pwrNums[thing])
+			sameThings++;
+	if (sameThings == 5)
+	{
+		if (pwrSame == true)
+			return 70;
+		else
+			return 60;
+	}
+	else if (sameThings == 4)
+	{
+		if (pwrSame == true)
+			return 50;
+		else
+			return 40;
+	}
+	else if (sameThings == 3)
+	{
+		if (pwrSame == true)
+			return 30;
+		else
+			return 20;
+	}
+	else if (pwrSame == true)
+		return 10;
+	else
+		return 0;
+}

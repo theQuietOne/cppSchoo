@@ -1,15 +1,20 @@
 #include<conio.h>
 #include<iostream>
+#include<time.h>
 using namespace std;
+
 int enterNums(int&, int&, int&, int&, int&, int&);
 void generateNums(int&, int&, int&, int&, int&, int&, int);
 int compareNums(int[], int[]);
+
 void main()
 {
-	int one = 0, two = 0, three = 0, four = 0, five = 0, pwr = 0, max = 0, outcome=0;
-	int FIVE = 0, FOURW=0, FOUR=0, THREEW=0, THREE=0, NOW=0, NO=0;
+	srand(time(NULL));
+	int pizza = rand();
+	int one = 0, two = 0, three = 0, four = 0, five = 0, pwr = 0, max = 0, outcome = 0;
+	int FIVE = 0, FOURW = 0, FOUR = 0, THREEW = 0, THREE = 0, NOW = 0, NO = 0;
 	int nums[6], pwrNums[6];
-	bool potato;
+	bool potato = true;
 	max = enterNums(one, two, three, four, five, pwr);
 	nums[0] = one;
 	nums[1] = two;
@@ -44,6 +49,7 @@ void main()
 		if (outcome == 0)
 			NO++;
 	}
+	cout << "You finally won!" << endl;
 	cout << "There were :" << endl;
 	cout << FIVE << " with five matching but no powerball," << endl;
 	cout << FOURW << " with four matching and a powerball," << endl;
@@ -52,8 +58,8 @@ void main()
 	cout << THREE << " with three matching but no powerball," << endl;
 	cout << NOW << " with less than three matching and a powerball," << endl;
 	cout << NO << " with less than three matching," << endl;
-	cout << "For a grand total of" << FIVE + FOURW + FOUR + THREEW + THREE + NOW + NO<<" tickets.  That's expensive!";
-	_getch();						//remove the underscore once you go back to 2010!!!
+	cout << "For a grand total of " << FIVE + FOURW + FOUR + THREEW + THREE + NOW + NO << " tickets.  That's expensive!";
+	_getch();
 }
 int enterNums(int& one, int& two, int& three, int& four, int& five, int& pwr)
 {
@@ -110,17 +116,17 @@ int enterNums(int& one, int& two, int& three, int& four, int& five, int& pwr)
 }
 void generateNums(int& one, int& two, int& three, int& four, int& five, int& pwr, int max)
 {
-	int max = 0, nums[5], swap = 0;
+	int nums[5], swap = 0;
 	bool moo = true;
 	while (moo == true)
 	{
 		moo = false;
-		//nums[0];						//These need randomization!!!!
-		//nums[1];
-		//nums[2];
-		//nums[3];
-		//nums[4];
-		//pwr;
+		nums[0] = rand() % (max+1);
+		nums[1] = rand() % (max+1);
+		nums[2] = rand() % (max+1);
+		nums[3] = rand() % (max+1);
+		nums[4] = rand() % (max+1);
+		pwr = rand() % (max+1);
 		for (int outer = 0; outer < 5; outer++)
 		{
 			if (nums[outer] == pwr)
@@ -150,6 +156,11 @@ void generateNums(int& one, int& two, int& three, int& four, int& five, int& pwr
 					}
 		}
 	}
+	one = nums[0];
+	two = nums[1];
+	three = nums[2];
+	four = nums[3];
+	five = nums[4];
 }
 int compareNums(int nums[], int pwrNums[])
 {

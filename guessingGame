@@ -1,0 +1,41 @@
+#include<iostream>
+#include<conio.h>
+#include<time.h>
+using namespace std;
+void main()
+{
+	bool moo = true;
+	srand(time(NULL));
+	int max=0, guesses=0, cGuess=0, actual=0;
+	cout << "What do you want the highest possible random number to be?" << endl;
+	cin >> max;
+	cout << "How many guesses?" << endl;
+	cin >> guesses;
+	actual = max + 1;
+	while(actual>max)
+		actual = rand()%(max+1);
+	while (guesses > 0)
+	{
+		cout << "You have " << guesses << " guess(es) remaining." << endl;
+		cout << "Enter your next guess!"<<endl;
+		cin >> cGuess;
+		if (cGuess > max)
+		{
+			cout << "Your guess is greater than your max!  Try again!"<<endl;
+			guesses++;
+		}
+		else if (cGuess == actual)
+			guesses = 0;
+		else if (cGuess > actual)
+			cout << "Too high!"<<endl;
+		else if (cGuess < actual)
+			cout << "Too low!"<<endl;
+		guesses--;
+	}
+	if (guesses = -1)
+		cout << "You win!" << endl;
+	else
+		cout << "You're out of guesses!" << endl;
+	cout << "The answer is: " << actual;
+	_getch();
+}

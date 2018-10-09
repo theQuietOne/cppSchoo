@@ -1,0 +1,35 @@
+#include<iostream>
+#include<string>
+using namespace std;
+#include<conio.h>
+void addThree(int&);		//this prototypes it so it actually works
+int mult2(int);
+void suprise(int, int);
+void main()
+{
+	int h=2, f=4, j=0;
+	j=h+f;
+	cout<<j<<endl;
+	addThree(j);
+	cout<<"Back in main: "<<j<<endl;
+	j=mult2(j);
+	cout<<"Back again: "<<j<<endl;
+	suprise(h, j);
+	getch();
+}
+void addThree(int& g)		//the & sends the location instead of number so it saves
+{
+	g+=3;
+	cout<<g<<endl;
+	return;
+}
+int mult2(int k)
+{
+	k*=2;
+	return k;
+}
+void suprise(int a, int b)
+{
+	cout<<(a+b)<<endl;
+	return;
+}

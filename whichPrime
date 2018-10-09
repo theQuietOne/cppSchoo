@@ -1,0 +1,28 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+void main()
+{
+	int findit=0, primeo=0, number=0, g=2;
+	bool prime;
+	cout<<"Enter which prime you want to find: ";
+	cin>>findit;
+	while(number<findit)
+	{
+		prime=true;
+		for(int count=2; count<g; count++)
+		{
+			if(g%count==0)
+				prime=false;
+		}
+		if(prime==true)
+		{
+			number+=1;
+			primeo=g;
+		}
+		g++;
+	}
+	cout<<"Prime #"<<findit<<" is "<<primeo;
+	getch();
+}

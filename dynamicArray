@@ -1,0 +1,27 @@
+#include<iostream>
+#include<conio.h>
+using namespace std;
+void main()
+{
+	/*int a=3, b;
+	a=a+b; */			//this code'll break cuz' no initialization
+	
+	/*int a[3];
+	for(int k=0; k<3; k++)
+		a[k]=k;
+	for(int k=0; k<3; k++)
+		cout<<a[k]<<endl;
+		*/				//arrays are technically pointers oh goodness
+	
+	int *g;				//g is the starting point of the array
+	int s;
+	cout<<"how big an array?"<<endl;
+	cin>>s;
+	g=new int[s];		//so g points to an integer array of that size, setting aside a block that size in memory.  Include new, or it breaks it!
+
+	for(int j=0; j<s; j++)
+		g[j]=j;
+	for(int j=0; j<s; j++)
+		cout<<g[j]<<endl;
+	getch();
+}

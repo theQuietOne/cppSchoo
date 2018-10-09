@@ -1,0 +1,93 @@
+//header file
+class Transportation
+{
+public:
+	Transportation();
+	Transportation(int);			//overloaded constructor, gives default value to things
+	void hasWheelsIn(bool);
+	bool hasWheelsOut();
+	void howManyWheels(int);
+	void floatsIn(bool);
+	bool floatsOut();
+	void cost(double);
+	double maxPrice();
+	int showWheelCount();
+private:
+	double calculateMaxPrice();
+	double price;
+	bool wheels;
+	bool floats;
+	int numOWheels;
+};
+
+//resource file
+#include "Transportation.h"
+Transportation::Transportation(){}
+Transportation::Transportation(int x)
+{
+	wheels=false;
+	price=0.0;
+	floats=false;
+}
+void Transportation::hasWheelsIn(bool w)
+{
+	wheels=w;
+}
+	bool Transportation::hasWheelsOut()
+	{
+		return wheels;
+	}
+	void Transportation::howManyWheels(int h)
+	{
+		numOWheels=h;
+		if(numOWheels>0)
+			wheels=true;
+	}
+	int Transportation::showWheelCount()
+	{
+		return numOWheels;
+	}
+	void Transportation::floatsIn(bool f)
+	{
+		floats=f;
+	}
+	bool Transportation::floatsOut()
+	{
+		return floats;
+	}
+	void Transportation::cost(double c)
+	{
+		price=c;
+	}
+	double Transportation::maxPrice()
+	{
+		return calculateMaxPrice();
+	}
+
+	double Transportation::calculateMaxPrice()
+	{
+		return price*1.2;
+	}
+  
+//use class (actual code)
+#include<iostream>
+#include<conio.h>
+#include"Transportation.h"
+using namespace std;
+void main()
+{
+	int j=0;
+	Transportation h(1);
+	cout<<"How many wheels?"<<endl;
+	cin>>j;
+	h.howManyWheels(j);
+	cout<<"This thing ";
+	if(h.hasWheelsOut())					//if it's true this will work
+	{
+		cout<<"has wheels"<<endl;
+		cout<<h.showWheelCount()<<" wheels, to be exact!"<<endl;
+	}
+	else
+		cout<<"doesn't have wheels"<<endl;
+	getch();
+}

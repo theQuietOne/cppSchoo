@@ -1,0 +1,43 @@
+#include<conio.h>
+#include<stdio.h>
+void main()
+{
+	char name[8]="string?";
+	//C++ is freaking weird.  Index starts at 0 and goes to 7, but the last position in the array is used as an end-of-file marker (BUT WHY)
+	//THERE ARE NO STRINGS!!!! NOO STRIINGSSSSSSSS!!
+	int i=27;
+	int h=4, j;
+	float w=0.0, x=11.01, y;
+	j=i+h;
+	printf("Type in a name: ");
+	scanf("%c", &name[3]);
+	//note that scanf can overwrite the end-file (\0) marker and spit out a load of garbage
+	//the name[3] part overwrites the 3rd position (4th character)
+	printf("\nname contains %s", name);
+	printf("\nThis is j's address! %i",&j);
+	printf("\nThis is w's address! %i",&w);
+	printf("\nThis is x's address! %i",&x);
+	//address is always integer
+
+	//float is traditionally c
+	printf("\nType in a value to add to %3.2f: ", x);
+	//the number before the f means <spaces? before number>.<decimals after number>
+	scanf("%f",&w);
+	if(w>10)
+	{
+		printf("this is bigger than 10\n");
+	}
+	else
+		printf("this is 10 or less\n");
+	y=w+x;
+	printf("The integers added are %i",*&j);
+	//the star shows the value at the memory address; it's a pointer!!!!!
+	printf("\nThe floats %3.2f and %3.2f equal %3.2f", w, x, y);
+	//the \n means new line
+	//printf the c command which is apparently better than the c++ version
+	getch();
+	//get character is (apparently) great!
+}
+//parenthesis=function (thing before it is function)
+
+//make sure you initialize variables before trying to use them or you'll DIE

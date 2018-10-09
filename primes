@@ -1,0 +1,24 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+void main()
+{
+	int start=0, end=0;
+	bool prime=true;
+	cout<<"Enter a starting number!"<<endl;
+	cin>>start;
+	cout<<"Enter an endpoint!"<<endl;
+	cin>>end;
+	for(int g=start; g<end+1; g++)
+	{
+		prime=true;
+		for(int count=2; count<g; count++)
+		{
+			if(g%count==0)
+				prime=false;
+		}
+		if(prime==true)
+			printf("%i is prime!\n", g);
+	}
+	getch();
+}

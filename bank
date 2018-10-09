@@ -1,0 +1,53 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+void deposit(double&, double&);
+double withdrawal(double, double);
+void lancebal(double);
+void main()
+{
+	double balance=0.0, indo=0.0;
+	int thing=0;
+	bool moo=true;
+	while(moo=true)
+	{
+		cout<<"Deposit: 1"<<endl<<"Withdrawal: 2"<<endl<<"Balance: 3"<<endl<<"Exit: 0"<<endl;
+		thing=0;
+		cin>>thing;
+		if(thing==1)
+		{
+			cin>>indo;
+			deposit(indo, balance);
+		}
+		else if(thing==2) 
+		{
+			cin>>indo;
+			balance=withdrawal(indo, balance);
+		}
+		else if(thing==3)
+		{
+			lancebal(balance);
+		}
+		else if(thing==0)
+		{
+			break;
+		}
+	}
+	getch();
+}
+void deposit(double& input, double& balance)
+{
+	balance+=input;
+	return;
+}
+double withdrawal(double input, double balance)
+{
+	balance-=input;
+	return balance;
+}
+void lancebal(double balance)
+{
+	cout<<balance<<endl;
+	return;
+}

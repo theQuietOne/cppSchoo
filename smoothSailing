@@ -1,0 +1,28 @@
+#include <conio.h>
+#include <iostream>
+#include <string>
+using namespace std;
+void main()
+{
+	string words;
+	int start=0, number=1;
+	cout<<"Enter a string to sail with: ";
+	getline(cin, words);
+	start=words.length()/2;
+	for(int count=start; count<words.length()+1; count--)
+	{
+		for(int drac=0; drac<count; drac++)
+			cout<<" ";
+		cout<<words.substr(count, number)<<endl;
+		number+=2;
+	}
+	number=words.length();
+	for(int count=0; count<start+1; count++)
+	{
+		for(int drac=0; drac<count; drac++)
+			cout<<" ";
+		cout<<words.substr(count, number)<<endl;
+		number-=2;
+	}
+	getch();
+}

@@ -1,0 +1,20 @@
+#include<string>
+#include<iostream>
+#include<conio.h>
+using namespace std;
+
+void main()
+{
+	char t[10];
+	char u[10];
+	cout<<&t<<endl;
+	cout<<&u<<endl;
+	gets(t);
+	cout<<t<<endl;
+	cout<<t<<endl;
+	cout<<t<<endl;
+	gets(u);
+	cout<<t<<endl;
+	cout<<u<<endl;
+	getch();
+}

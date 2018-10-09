@@ -1,0 +1,34 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+void main()
+{
+	bool number=true;
+	string input;
+	char a=' ', b=' ';
+	cout<<"Enter word for the double letter thingy!"<<endl;
+	getline(cin, input);
+	for(int j=0; j<input.length(); j++)
+		input[j]=tolower(input[j]);
+	for(int no=0; no<input.length()-2; no++)
+	{
+		a=input[no];
+		for(int meh=no+2; meh<input.length(); meh++)
+		{
+			b=input[meh];
+			if(a==b)
+			{
+				cout<<"It's a double letter";
+				number=false;
+				no=input.length();
+				meh=input.length();
+			}
+		}
+	}
+	if(number==true)
+	{
+		cout<<"It's NOT a double letter";
+	}
+	getch();
+}

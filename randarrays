@@ -1,0 +1,44 @@
+#include<iostream>
+#include<conio.h>
+#include<time.h>
+using namespace std;
+void main()
+{
+	int k=2;
+	srand(time(NULL));
+	for(int h=0; h<3; h++)
+	{
+		k=rand()%(75-50)+50;
+		cout<<k<<endl;
+	}
+	k=rand();
+	cout<<k<<endl;
+	//int *aria;//=&k;		//stars make it a pointer
+	//int aria[5];		//if declared array is smaller than spaces used, it'll do the bad.  Don't do the bad plz
+	//aria[0]=1;
+	//aria[1]=5;
+	//aria[2]=20;
+	//aria[3]=50000;
+	//aria[4]=6;
+	//aria[6]=0;
+	/*int problemchild[5];
+	problemchild[0]=22;
+	problemchild[1]=33;
+	problemchild[2]=66;
+	*/
+	//for(int h=0; h<6; h++)
+		//cout<<*aria<<endl;
+	//cout<<endl;
+	//for(int h=0; h<10; h++)
+		//cout<<&problemchild[h]<<endl;
+
+	int arle[5];
+	arle[0]=22;
+	arle[1]=33;
+	arle[2]=44;
+	arle[3]=5;
+	arle[4]=252;
+	for(int h=0; h<6; h++)
+	//	cout<<*(arle+h)<<endl;
+	getch();
+}

@@ -1,0 +1,44 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+void main()
+{
+	int h=1, endPoint, counter=1;
+	cout<<"plz enter numbr plz ";
+	cin>>endPoint;
+	/*for(int counter=1; counter<endPoint+1; counter++)				//for some reason for(;;) is an appropriate header????!?!?!?!?!
+	{
+		h*=counter;
+	}
+	*/
+
+	/*for(int counter=endPoint; counter>1; counter--)
+	{
+		h*=counter;
+	}
+	*/
+
+	/*while(counter<=endPoint)
+	{
+		h*=counter;
+		counter++;
+	}
+	*/
+
+	/*
+	do
+	{
+		h*=counter;
+		counter++;
+	}
+	while(counter<=endPoint);
+	*/
+
+	for(int g=0; g<3; g++)
+	{
+		cout<<"h="<<h++<<endl;						//this adds 1 to h after printing
+		cout<<"counter="<<++counter<<endl;			//this adds 1 to h before printing
+	}
+	//cout<<h<<endl;
+	getch();
+}

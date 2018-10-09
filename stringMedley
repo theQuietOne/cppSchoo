@@ -1,0 +1,64 @@
+#include<iostream>
+#include<conio.h>
+#include<string>
+using namespace std;
+
+void reverse(string);
+void words(string);
+
+void main()
+{
+	cout<<"enter a string to mess with!"<<endl;
+	string input="";
+	int dothing=0;
+	bool meh=true;
+	while(meh==true)
+	{
+		getline(cin, input);
+		cout<<"What do you want to do?"<<endl<<"1: reverse string"<<endl<<"2: find number of words"<<endl<<"0: exit"<<endl;
+		cin>>dothing;
+		cin.ignore();
+		if(dothing==0)
+			meh=false;
+		if(dothing==1)
+		{
+			reverse(input);
+		}
+		if(dothing==2)
+		{
+			words(input);
+		}
+	}
+	getch();
+}
+void reverse(string input)
+{
+	for(int counter=input.length()-1; counter>-1; counter--)
+	{
+		cout<<input[counter];
+	}
+	cout<<endl;
+	return;
+}
+void words(string input)
+{
+	int flag=1;
+	bool thingy=true;
+	while(thingy==true)
+	{
+		thingy=false;
+		for(int meh=0; meh<input.length(); meh++)
+		{
+			if(input.substr(meh,2)=="  ")
+			{
+				input.replace(meh, 2, " ");
+				thingy=true;
+			}
+		}
+	}
+	for(int meh=0; meh<input.length()+1; meh++)
+		if(input.substr(meh, 1)==" ")
+			flag++;
+	cout<<flag<<endl;
+	return;
+}

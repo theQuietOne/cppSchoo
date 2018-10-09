@@ -1,0 +1,27 @@
+#include<iostream>
+#include<string>
+using namespace std;
+#include<conio.h>
+void main()
+{
+	string word;
+	int counts;
+	char a[18]="happy ", b[8]="dayz";
+	strcat(a, b);
+	cout<<a<<endl;
+	cout<<"Type a string: ";
+	getline(cin,word);
+	//word[5]=toupper(word[5]);
+	for(int j=0; j<word.length(); j++)
+	{
+		if(isupper(word[j]))
+			word[j]=tolower(word[j]);
+		else if(islower(word[j]))
+			word[j]=toupper(word[j]);
+	}
+	cout<<word<<endl;
+	counts=word.length();
+	cout<<counts;
+	cout<<word.substr(2, 5);
+	getch();
+}

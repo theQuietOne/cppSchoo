@@ -1,0 +1,18 @@
+#include<conio.h>								//where getch comes from
+#include<iostream>								//no h!
+#include<string>
+using namespace std;
+/*There are two ways to set up functions, demonstrated below.
+They always go before main, however, or c++ won't find it.
+*/
+void main()
+{
+	string fname, lname;
+	cout<<"Type in a name: "<<endl<<endl<<endl<<endl;				//c out
+	//cout<<"No last names please"<<endl;
+	//cin>>fname;
+	//cin>>lname;
+	getline(cin,fname);
+	cout<<fname<<lname<<endl;
+	getch();
+}

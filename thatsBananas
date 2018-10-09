@@ -1,0 +1,25 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+void main()
+{
+	int handsize=0, buying=0, handsbought=0, singlesbought=0;
+	float handcost=0.0, perhandcost=0.0, singlecost=0.0, persinglecost=0.0, total=0.0;
+	cout<<"How big are your hands?"<<endl;
+	cin>>handsize;
+	cout<<"How much does a hand cost?"<<endl;
+	cin>>perhandcost;
+	cout<<"How much does a single banana cost?"<<endl;
+	cin>>persinglecost;
+	cout<<"How many bananas do you want?"<<endl;
+	cin>>buying;
+	handsbought=buying/handsize;
+	handcost=handsbought*perhandcost;
+	printf("You purchased %i hands totalling $%3.2f", handsbought, handcost);
+	singlesbought=buying%handsize;
+	singlecost=singlesbought*persinglecost;
+	printf("\nYou purchased %i singles totalling $%3.2f", singlesbought, singlecost);
+	total=singlecost+handcost;
+	printf("\nYour total is $%3.2f", total);
+	getch();
+}

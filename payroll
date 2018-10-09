@@ -1,0 +1,30 @@
+#include<conio.h>
+#include<stdio.h>
+void main()
+{
+	int hours=0, overtime=0;
+	float perHour=0.0, gross=0.0, taxes=0.0, net=0.0;
+	printf("Enter hours worked: ");
+	scanf("%i", &hours);
+	printf("Enter pay per hour: $");
+	scanf("%f", &perHour);
+	if(hours>40)
+	{
+		overtime=hours-40;
+		gross=(40*perHour)+(overtime*perHour*1.5);
+	}
+	else
+	{
+		gross=hours*perHour;
+	}
+	printf("-\nYour gross is $%3.2f\n", gross);
+	taxes=.1*gross;
+	printf("With 10 percent tax, you'll pay $%3.2f to the government! That's a lot!\n",taxes);
+	net=gross-taxes;
+	printf("Your net pay is $%3.2f", net);
+
+
+
+
+	getch();
+}

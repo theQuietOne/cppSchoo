@@ -1,0 +1,19 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+#include<string>
+void main()
+{
+	string word;
+	cout<<"Enter something to change the case of\n";
+	getline(cin,word);
+	for(int j=0; j<word.length(); j++)
+	{
+		if(isupper(word[j]))
+			word[j]=tolower(word[j]);
+		else if(islower(word[j]))
+			word[j]=toupper(word[j]);
+	}
+	cout<<word;
+	getch();
+}

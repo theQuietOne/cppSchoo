@@ -1,0 +1,17 @@
+#include<conio.h>
+#include<iostream>
+using namespace std;
+void main()
+{
+	int y=0, x, z;
+	while(y==0)
+	{
+		cout<<"Plz type number: ";
+		cin>>x;
+		z=x%7;
+		cout<<"The answ r "<<z<<endl;
+		cout<<"Again? Yes=0, No=1"<<endl;
+		cin>>y;
+	}
+	getch();
+}

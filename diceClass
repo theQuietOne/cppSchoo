@@ -1,0 +1,99 @@
+//header
+#pragma once
+class diceClass
+{
+public:
+	diceClass();
+	int one1d6();
+	int one1dY(int);
+	int oneXd6(int);
+	int oneXdY(int, int);
+	void N1d6(int);
+	void N1dY(int, int);
+	void NXd6(int, int);
+	void NXdY(int, int, int);
+	int *returAr;
+private:
+	int doStuff(int, int, int);
+};
+
+//resource
+#include<iostream>
+#include<conio.h>
+#include<time.h>
+using namespace std;
+
+#include "diceClass.h"
+diceClass::diceClass() {}
+int diceClass::one1d6()
+{
+	return doStuff(1, 1, 6);
+}
+int diceClass::one1dY(int sides)
+{
+	return doStuff(1, 1, sides);
+}
+int diceClass::oneXd6(int dice)
+{
+	return doStuff(1, dice, 6);
+}
+int diceClass::oneXdY(int dice, int sides)
+{
+	return doStuff(1, dice, sides);
+}
+void diceClass::N1d6(int rolls)
+{
+	doStuff(rolls, 1, 6);
+}
+void diceClass::N1dY(int rolls, int sides)
+{
+	doStuff(rolls, 1, sides);
+}
+void diceClass::NXd6(int rolls, int dice)
+{
+	doStuff(rolls, dice, 6);
+}
+void diceClass::NXdY(int rolls, int dice, int sides)
+{
+	doStuff(rolls, dice, sides);
+}
+
+int diceClass::doStuff(int rolls, int dice, int sides)
+{
+	srand(time(NULL));
+	if (rolls == 1 && dice == 1)
+		return (rand() % sides + 1);
+	else
+	{
+		returAr = new int[rolls];
+		for (int counter = 0; counter < rolls; counter++)
+			returAr[counter] = 0;
+		for(int rollDo=0; rollDo<rolls; rollDo++)
+			for (int dieDo = 0; dieDo < dice; dieDo++)
+			{
+				returAr[rollDo] += (rand() % sides + 1);
+			}
+		return 0;
+	}
+}
+
+
+//sample code
+#include<iostream>
+#include<conio.h>
+#include"diceClass.h"
+using namespace std;
+void main()
+{
+	int storage = 0;
+	diceClass dices;
+	storage = dices.one1d6();
+	cout << storage<<endl;
+	dices.NXdY(10, 20, 6);
+	for (int counter = 0; counter < 10; counter++)
+		cout << dices.returAr[counter]<<endl;
+	dices.NXdY(11, 20, 6);
+	for (int counter = 0; counter < 11; counter++)
+		cout << dices.returAr[counter] << endl;
+	_getch(); 
+}

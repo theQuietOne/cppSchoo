@@ -1,0 +1,52 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<algorithm>
+using namespace std;
+void main()
+{
+	int county=0;
+	bool thingus = true;
+	string storage, *ar;
+	ifstream in, countdo;
+	ofstream out;
+	in.open("alphabefile.txt");
+	countdo.open("alphabefile.txt");
+	out.open("alphabeted.txt");
+	getline(countdo, storage, ' ');
+	while (!countdo.eof())
+	{
+		county += 1;
+		getline(countdo, storage, ' ');
+	}
+	ar = new string[county];
+	getline(in, ar[0], ' ');
+	for (int drac = 1; drac < county; drac++)
+	{
+		getline(in, ar[drac], ' ');
+		cout << ar[drac] << endl;
+		storage = ar[drac];
+		storage.erase(remove(storage.begin(), storage.end(), '\n'));
+		ar[drac] = storage;
+	}
+	cout << ar[county-1] << endl;
+	
+	while (thingus == true)
+	{
+		thingus = false;
+		for (int outer = 0; outer < county - 1; outer++)
+		{
+			if (ar[outer].compare(ar[outer + 1]) >0)
+			{
+				thingus = true;
+				swap(ar[outer], ar[outer + 1]);
+			}
+		}
+	} 
+	for (int drac = 0; drac < county; drac++)
+		out << ar[drac] << endl;
+	in.close();
+	countdo.close();
+	out.close();
+}

@@ -1,0 +1,24 @@
+#include<iostream>
+#include<iostream>
+using namespace std;
+#include<conio.h>
+#include<vector>			//can hold anything but has to be told what it's holding
+void main()
+{
+	int count=0;
+	vector<int> nums;
+	nums.push_back(12);
+	nums.push_back(11);
+	nums.push_back(18);
+	nums.push_back(5);
+	nums.push_back(12);
+	nums.push_back(12);
+	count=nums.size();
+		for(int t=0; t<count; t++)
+		cout<<nums[t]<<endl;
+	cout<<"----"<<endl;
+	nums.pop_back();
+		for(int t=0; t<count-1; t++)
+		cout<<nums[t]<<endl;
+	getch();
+}

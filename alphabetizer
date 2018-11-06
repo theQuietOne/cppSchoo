@@ -60,9 +60,15 @@ void main()
 			}
 		}
 		cout << "." ;
-	} 
-	for (int drac = 0; drac < county; drac++)
-		out << ar[drac] << endl;
+	}
+	storage = ar[0];
+	out << ar[0] << endl;
+	for (int drac = 1; drac < county; drac++)
+	{
+		if (ar[drac] != storage)
+			out << ar[drac] << endl;
+		storage = ar[drac];
+	}
 	in.close();
 	countdo.close();
 	out.close();

@@ -1,0 +1,29 @@
+#include<iostream>
+#include<conio.h>
+#include"diceClass.h"
+#include<time.h>
+using namespace std;
+void main()
+{
+	srand(time(NULL));
+	diceClass thingus;
+	int dices = 0, sides = 0, rolls = 0;
+	cout << "Enter number of dice" << endl;
+	cin >> dices;
+	cout << "Enter number of sides per die" << endl;
+	cin >> sides;
+	cout << "Enter number of rolls" << endl;
+	cin >> rolls;
+	for (int rolldo = 0; rolldo < rolls; rolldo++)
+	{
+		cout << endl << "roll "<<rolldo+1<<": ";
+		for (int diedo = 0; diedo < dices; diedo++)
+		{
+			if (diedo > 1)
+				cout << "|";
+			for (int sidedo = 0; sidedo < thingus.one1dY(sides); sidedo++)
+				cout << "*";
+		}
+	}
+	_getch(); 
+}

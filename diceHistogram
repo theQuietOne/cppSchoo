@@ -8,12 +8,16 @@ void main()
 	srand(time(NULL));
 	diceClass thingus;
 	int dices = 0, sides = 0, rolls = 0;
+	char histothing='*';
 	cout << "Enter number of dice" << endl;
 	cin >> dices;
 	cout << "Enter number of sides per die" << endl;
 	cin >> sides;
 	cout << "Enter number of rolls" << endl;
 	cin >> rolls;
+	cout << "Enter symbol for histogram" << endl;
+	histothing = _getch();
+	_getch();
 	for (int rolldo = 0; rolldo < rolls; rolldo++)
 	{
 		cout << endl << "roll "<<rolldo+1<<": ";
@@ -22,7 +26,7 @@ void main()
 			if (diedo > 1)
 				cout << "|";
 			for (int sidedo = 0; sidedo < thingus.one1dY(sides); sidedo++)
-				cout << "*";
+				cout << histothing;
 		}
 	}
 	_getch(); 

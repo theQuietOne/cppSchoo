@@ -1,0 +1,338 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+void main()
+{
+	string number, character, checkflag;
+	checkflag = "notteen";
+	cout<<"Enter a number between 1 and 999999 to convert to words!"<<endl;
+	cin>>number;
+	switch (number.length())
+	{
+	case 1:
+		number = '0' + number;
+	case 2:
+		number = '0' + number;
+	case 3:
+		number = '0' + number;
+	case 4:
+		number = '0' + number;
+	case 5:
+		number = '0' + number;
+	case 6:
+		break;
+	}
+	//use switch to convert to words
+	switch (number.length())
+	{
+	case 6:
+		switch (number[0])
+		{
+		case '0':
+			break;
+		case '1':
+			cout<<"one hundred ";
+			break;
+		case '2':
+			cout<<"two hundred ";
+			break;
+		case '3':
+			cout<<"three hundred ";
+			break;
+		case '4':
+			cout<<"four hundred ";
+			break;
+		case '5':
+			cout<<"five hundred ";
+			break;
+		case '6':
+			cout<<"six hundred ";
+			break;
+		case '7':
+			cout<<"seven hundred ";
+			break;
+		case '8':
+			cout<<"eight hundred ";
+			break;
+		case '9':
+			cout<<"nine hundred ";
+		default:
+			cout<<"Not a number"<<endl;
+			break;
+		}
+	case 5:
+		switch (number[1])
+		{
+		case '0':
+			break;
+		case '1':
+			checkflag = "teen";
+			break;
+		case '2':
+			cout<<"twenty ";
+			break;
+		case '3':
+			cout<<"thirty ";
+			break;
+		case '4':
+			cout<<"forty ";
+			break;
+		case '5':
+			cout<<"fifty ";
+			break;
+		case '6':
+			cout<<"sixty ";
+			break;
+		case '7':
+			cout<<"seventy ";
+			break;
+		case '8':
+			cout<<"eighty ";
+			break;
+		case '9':
+			cout<<"ninety ";
+			break;
+		default:
+			cout<<"Not a number"<<endl;
+			break;
+		}
+	case 4:
+		if (checkflag=="teen")
+		{
+			checkflag = "no";
+			switch (number[2])
+			{
+			case '0':
+				cout<<"ten thousand ";
+				break;
+			case '1':
+				cout<<"eleven thousand ";
+				break;
+			case '2':
+				cout<<"twelve thousand ";
+				break;
+			case '3':
+				cout<<"thirteen thousand ";
+				break;
+			case '4':
+				cout<<"fourteen thousand ";
+				break;
+			case '5':
+				cout<<"fifteen thousand ";
+				break;
+			case '6':
+				cout<<"sixteen thousand ";
+				break;
+			case '7':
+				cout<<"seventeen thousand ";
+				break;
+			case '8':
+				cout<<"eighteen thousand ";
+				break;
+			case '9':
+				cout<<"nineteen thousand ";
+				break;
+			default:
+				cout<<"Not a number"<<endl;
+				break;
+			}
+		}
+		else
+		{
+			switch (number[2])
+			{
+			case '0':
+				if(number[0]!='0' || number[1] != '0')
+					cout<<"thousand ";
+				break;
+			case '1':
+				cout<<"one thousand ";
+				break;
+			case '2':
+				cout<<"two thousand ";
+				break;
+			case '3':
+				cout<<"three thousand ";
+				break;
+			case '4':
+				cout<<"four thousand ";
+				break;
+			case '5':
+				cout<<"five thousand ";
+				break;
+			case '6':
+				cout<<"six thousand ";
+				break;
+			case '7':
+				cout<<"seven thousand ";
+				break;
+			case '8':
+				cout<<"eight thousand ";
+				break;
+			case '9':
+				cout<<"nine thousand ";
+				break;
+			default:
+				cout<<"Not a number"<<endl;
+				break;
+			}
+		}
+	case 3:
+		switch (number[3])
+		{
+		case '0':
+			break;
+		case '1':
+			cout<<"one hundred ";
+			break;
+		case '2':
+			cout<<"two hundred ";
+			break;
+		case '3':
+			cout<<"three hundred ";
+			break;
+		case '4':
+			cout<<"four hundred ";
+			break;
+		case '5':
+			cout<<"five hundred ";
+			break;
+		case '6':
+			cout<<"six hundred ";
+			break;
+		case '7':
+			cout<<"seven hundred ";
+			break;
+		case '8':
+			cout<<"eight hundred ";
+			break;
+		case '9':
+			cout<<"nine hundred ";
+			break;
+		default:
+			cout<<"Not a number"<<endl;
+			break;
+		}
+	case 2:
+		switch (number[4])
+		{
+		case '0':
+			break;
+		case '1':
+			checkflag = "teen";
+			break;
+		case '2':
+			cout<<"twenty ";
+			break;
+		case '3':
+			cout<<"thirty ";
+			break;
+		case '4':
+			cout<<"forty ";
+			break;
+		case '5':
+			cout<<"fifty ";
+			break;
+		case '6':
+			cout<<"sixty ";
+			break;
+		case '7':
+			cout<<"seventy ";
+			break;
+		case '8':
+			cout<<"eighty ";
+			break;
+		case '9':
+			cout<<"ninety ";
+			break;
+		default:
+			cout<<"Not a number"<<endl;
+			break;
+		}
+	case 1:
+		if (checkflag=="teen")
+		{
+			checkflag = "no";
+			switch (number[5])
+			{
+			case '0':
+				cout<<"ten ";
+				break;
+			case '1':
+				cout<<"eleven ";
+				break;
+			case '2':
+				cout<<"twelve ";
+				break;
+			case '3':
+				cout<<"thirteen ";
+				break;
+			case '4':
+				cout<<"fourteen ";
+				break;
+			case '5':
+				cout<<"fifteen ";
+				break;
+			case '6':
+				cout<<"sixteen ";
+				break;
+			case '7':
+				cout<<"seventeen ";
+				break;
+			case '8':
+				cout<<"eighteen ";
+				break;
+			case '9':
+				cout<<"nineteen ";
+				break;
+			default:
+				cout<<"Not a number"<<endl;
+				break;
+			}
+		}
+		else
+		{
+			switch (number[5])
+			{
+			case '0':
+				break;
+			case '1':
+				cout<<"one ";
+				break;
+			case '2':
+				cout<<"two ";
+				break;
+			case '3':
+				cout<<"three ";
+				break;
+			case '4':
+				cout<<"four ";
+				break;
+			case '5':
+				cout<<"five ";
+				break;
+			case '6':
+				cout<<"six ";
+				break;
+			case '7':
+				cout<<"seven ";
+				break;
+			case '8':
+				cout<<"eight ";
+				break;
+			case '9':
+				cout<<"nine ";
+				break;
+			default:
+				cout<<"Not a number"<<endl;
+				break;
+			}
+		}
+		break;
+	default:
+		cout<<"Make sure your number is between 1 and 999999"<<endl;
+	}
+	cout << endl;
+	_getch();
+}

@@ -8,6 +8,7 @@ void main()
 	srand(time(NULL));
 	diceClass thingus;
 	int dices = 0, sides = 0, rolls = 0;
+	int *arr;
 	char histothing='*';
 	cout << "Enter number of dice" << endl;
 	cin >> dices;
@@ -18,16 +19,16 @@ void main()
 	cout << "Enter symbol for histogram" << endl;
 	histothing = _getch();
 	_getch();
-	for (int rolldo = 0; rolldo < rolls; rolldo++)
+	arr = new int[(((sides - 1)*dices) + 1) + dices];
+	for (int counter = 0; counter < (((sides - 1)*dices) + 1) + dices; counter++)
+		arr[counter] = 0;
+	for (int counter = 0; counter < rolls; counter++)
+		arr[thingus.oneXdY(dices, sides)]++;
+	for (int counter = dices; counter < (((sides - 1)*dices) + 1) + dices; counter++)
 	{
-		cout << endl << "roll "<<rolldo+1<<": ";
-		for (int diedo = 0; diedo < dices; diedo++)
-		{
-			if (diedo > 1)
-				cout << "|";
-			for (int sidedo = 0; sidedo < thingus.one1dY(sides); sidedo++)
-				cout << histothing;
-		}
+		cout << endl<<counter<<": ";
+		for (int outdo = 0; outdo < arr[counter]; outdo++)
+			cout << histothing;
 	}
 	_getch(); 
 }

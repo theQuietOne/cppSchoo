@@ -1,0 +1,93 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<vector>
+using namespace std;
+void main()
+{
+	cout << "Please wait for dictionary file to be read:" << endl;
+	vector<string> words;
+	string userin = " ", userStorage = " ", dictStorage = " ", userAlpha = "", dictAlpha="";
+	ifstream in;
+	bool thingus = false;
+	in.open("dictJoke.txt");
+	getline(in, dictStorage);
+	words.push_back(dictStorage);
+	while (!in.eof())
+	{
+		getline(in, dictStorage);
+		words.push_back(dictStorage);
+	}
+
+	cout << "Enter the word you would like to analyze: " << endl;
+	getline(cin, userin);
+	for (int counter = 0; counter < userin.length(); counter++)
+	{
+		if ((userin[counter] >= 65 && userin[counter] <= 90) || (userin[counter] >= 97 && userin[counter] <= 122))
+			userAlpha += userin[counter];
+	}
+	for (int counter = 0; counter < userAlpha.length(); counter++)
+		userAlpha[counter]=tolower(userAlpha[counter]);
+	while (thingus == false)
+	{
+		thingus = true;
+		for (int counter = 0; counter < userAlpha.length() - 1; counter++)
+		{
+			if (userAlpha[counter] > userAlpha[counter + 1])
+			{
+				swap(userAlpha[counter], userAlpha[counter + 1]);
+				thingus = false;
+			}
+		}
+	}
+	//
+	for (int countdo = 0; countdo < words.size(); countdo++)
+	{
+		dictAlpha = "";
+		userStorage = userAlpha;
+		thingus = false;
+		for (int counter = 0; counter < words[countdo].length(); counter++)
+		{
+			if ((words[countdo][counter] >= 65 && words[countdo][counter] <= 90) || (words[countdo][counter] >= 97 && words[countdo][counter] <= 122))
+				dictAlpha += words[countdo][counter];
+		}
+		for (int counter = 0; counter < dictAlpha.length(); counter++)
+			dictAlpha[counter] = tolower(dictAlpha[counter]);
+		while (thingus == false)
+		{
+			thingus = true;
+			for (int counter = 0; counter < dictAlpha.length() - 1; counter++)
+			{
+				if (dictAlpha[counter] > dictAlpha[counter + 1])
+				{
+					swap(dictAlpha[counter], dictAlpha[counter + 1]);
+					thingus = false;
+				}
+			}
+		}
+		if (!(dictAlpha.length() > userAlpha.length()))
+		{
+			userStorage = userAlpha;
+			thingus = false;
+			while (thingus == false)
+			{
+				thingus = true;
+				for(int usercount=0; usercount<userStorage.length(); usercount++)
+					for (int dictcount = 0; dictcount < dictAlpha.length(); dictcount++)
+					{
+						if (userStorage[usercount] == dictAlpha[dictcount])
+						{
+							thingus = false;
+							userStorage.erase(usercount, 1);
+							dictAlpha.erase(dictcount, 1);
+						}
+					}
+			}
+			if (dictAlpha.length() == 0)
+				cout << words[countdo] << endl;
+		}
+	}
+	cout << "And that's all!";
+	_getch();
+}

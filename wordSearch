@@ -1,0 +1,289 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+using namespace std;
+bool upL(char**, string, int, int, int, int);
+bool upM(char**, string, int, int, int, int);
+bool upR(char**, string, int, int, int, int);
+bool midL(char**, string, int, int, int, int);
+bool midR(char**, string, int, int, int, int);
+bool loL(char**, string, int, int, int, int);
+bool loM(char**, string, int, int, int, int);
+bool loR(char**, string, int, int, int, int);
+void main()
+{
+	int rows = 1, columns = 0;
+	string storage;
+	ifstream counter, searcher;
+	counter.open("wordSearch.txt");
+	getline(counter, storage);
+	columns = (storage.length() + 1) / 2;
+	//count how many rows and columns are necessary for 2D array & create said array
+	while (!counter.eof())
+	{
+		rows++;
+		getline(counter, storage);
+	}
+	char**arr = new char*[rows];
+	for (int countdo = 0; countdo < rows; countdo++)
+	{
+		arr[countdo] = new char[columns];
+	}
+	counter.close();
+	//fill array with characters
+	searcher.open("wordSearch.txt");
+	char ministore;
+	for (int x = 0; x < rows; x++)
+		for (int y = 0; y < columns; y++)
+		{
+			ministore = searcher.get();
+			if (ministore == '\t' || ministore == '\n')
+			{
+				y -= 1;
+			}
+			else
+			{
+				arr[x][y] = ministore;
+			}
+		}
+	for (int x = 0; x < rows; x++)
+	{
+		cout << endl;
+		for (int y = 0; y < columns; y++)
+			cout << arr[x][y];
+	}
+	cout << endl;
+	searcher.close();
+	//count how many words there are in the word bank to create proper array size (again) & create that array
+	ifstream countdo;
+	int flag = 1;
+	countdo.open("wordBank.txt");
+	getline(countdo, storage);
+	while (!countdo.eof())
+	{
+		flag++;
+		getline(countdo, storage);
+	}
+	string* bank = new string[flag];
+	countdo.close();
+	//populate the word bank
+	ifstream bankdo;
+	flag = 0;
+	bankdo.open("wordBank.txt");
+	getline(bankdo, bank[flag]);
+	while (!bankdo.eof())
+	{
+		flag++;
+		getline(bankdo, bank[flag]);
+	}
+	for (int num = 0; num < flag + 1; num++)
+		cout << bank[num] << endl;
+	bankdo.close();
+	//actually find the words in the word search
+	cout << endl << "--" << endl;
+	for (int searchDo = 0; searchDo < flag + 1;)
+	{
+		cout << bank[searchDo] << endl;
+		for (int x = 0; x < rows; x++)
+		{
+			for (int y = 0; y < columns; y++)
+			{
+				if (tolower(arr[x][y]) == bank[searchDo][0])
+				{
+					if (upL(arr, bank[searchDo], x, y, rows, columns) || upM(arr, bank[searchDo], x, y, rows, columns) || upR(arr, bank[searchDo], x, y, rows, columns) || midL(arr, bank[searchDo], x, y, rows, columns) || midR(arr, bank[searchDo], x, y, rows, columns) || loL(arr, bank[searchDo], x, y, rows, columns) || loM(arr, bank[searchDo], x, y, rows, columns) || loR(arr, bank[searchDo], x, y, rows, columns))
+					{
+						searchDo++;
+						x = rows;
+						y = columns;
+					}
+				}
+			}
+		}
+		for (int x = 0; x < rows; x++)
+		{
+			cout << endl;
+			for (int y = 0; y < columns; y++)
+				cout << arr[x][y];
+		}
+		cout << endl <<  "--" << endl;
+	}
+	//for debugging
+	for (int x = 0; x < rows; x++)
+	{
+		for (int y = 0; y < columns; y++)
+			cout << arr[x][y];
+		cout << endl;
+	}
+	_getch();
+}
+
+bool upL(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0, ydo = y;
+	if ((x - user.length()+1 >= 0) && (y - user.length()+1 >= 0))
+	{
+		for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo--)
+				if (tolower(search[xdo][ydo]) == user[flag])
+					flag++;
+				else
+					return false;
+
+		if (flag == user.length() - 1)
+		{
+			ydo = y;
+			for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo--)
+					search[xdo][ydo]=toupper(search[xdo][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool upM(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0;
+	if (y - user.length()+1 >= 0)
+	{
+		for (int ydo = y; ydo > (y - user.length()) + 1; ydo--)
+			if (tolower(search[x][ydo]) == user[flag])
+				flag++;
+			else
+				return false;
+		if (flag == user.length())
+		{
+			for (int ydo = y; ydo > (y - user.length()) + 1; ydo--)
+				search[x][ydo] = toupper(search[x][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool upR(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0, ydo=y;
+	if ((x + user.length() <= row) && (y - user.length()+1 >= 0))
+	{
+		for (int xdo = x; xdo < x + user.length(); xdo++, ydo--)
+				if (tolower(search[xdo][ydo]) == user[flag])
+					flag++;
+		if (flag == user.length())
+		{
+			ydo = y;
+			for (int xdo = x; xdo < x + user.length(); xdo++, ydo--)
+					search[xdo][ydo] = toupper(search[xdo][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool midL(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0;
+	if (x - user.length()+1 >= 0)
+	{
+		for (int xdo = x; xdo > (x - user.length()); xdo--)
+			if (tolower(search[xdo][y]) == user[flag])
+				flag++;
+		if (flag == user.length())
+		{
+			for (int xdo = x; xdo > (x - user.length()); xdo--)
+				search[xdo][y] = toupper(search[xdo][y]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool midR(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0;
+	if (x + user.length() <= row)
+	{
+		for (int xdo = x; xdo < x + user.length(); xdo++)
+			if (tolower(search[xdo][y]) == user[flag])
+				flag++;
+		if (flag == user.length())
+		{
+			for (int xdo = x; xdo < x + user.length(); xdo++)
+				search[xdo][y] = toupper(search[xdo][y]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool loL(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0, ydo=y;
+	if ((x - user.length()+1 >= 0) && (y + user.length()<=column))
+	{
+		for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo++)
+				if (tolower(search[xdo][ydo]) == user[flag])
+					flag++;
+		if (flag == user.length())
+		{
+			ydo = y;
+			for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo++)
+					search[xdo][ydo] = toupper(search[xdo][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool loM(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0;
+	if (y + user.length() <= column)
+	{
+		for (int ydo = y; ydo < y + user.length(); ydo++)
+			if (tolower(search[x][ydo]) == user[flag])
+				flag++;
+		if (flag == user.length())
+		{
+			for (int ydo = y; ydo <= y + user.length(); ydo++)
+				search[x][ydo] = toupper(search[x][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}
+bool loR(char** search, string user, int x, int y, int row, int column)
+{
+	int flag = 0, ydo=y;
+	if ((x + user.length() <= row) && (y + user.length() <= column))
+	{
+		for (int xdo = x; xdo < x + user.length(); xdo++, ydo++)
+				if (tolower(search[xdo][ydo]) == user[flag])
+					flag++;
+		if (flag == user.length())
+		{
+			ydo = y;
+			for (int xdo = x; xdo < x + user.length(); xdo++, ydo++)
+					search[xdo][ydo] = toupper(search[xdo][ydo]);
+			return true;
+		}
+		else
+			return false;
+	}
+	else
+		return false;
+}

@@ -115,6 +115,27 @@ void main()
 			cout << arr[x][y];
 		cout << endl;
 	}
+	//create HTML page with output
+	ofstream html;
+	html.open("output.html");
+	html << "<!DOCTYPE html>" << endl << "<html>" << endl << "<body>";
+	html << "<table" << endl;
+	for (int x = 0; x < rows; x++)
+	{
+		html << "<tr>" << endl;
+		for (int y = 0; y < columns; y++)
+		{
+			html << "<td";
+			//lowercase
+			if(arr[x][y]>96)
+				html<<" style=\"color: black\">" << arr[x][y] << "</td>" << endl;
+			else
+				html << " style=\"color: red\">" << arr[x][y] << "</td>" << endl;
+		}
+		html << "</tr>" << endl;
+	}
+	html << "</body>" << endl << "</html>";
+	html.close();
 	_getch();
 }
 
@@ -123,7 +144,7 @@ bool upL(char** search, string user, int x, int y, int row, int column)
 	int flag = 0, ydo = y;
 	if ((x - user.length()+1 >= 0) && (y - user.length()+1 >= 0))
 	{
-		for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo--)
+		for (int xdo = x; xdo > (x - user.length()); xdo--, ydo--)
 				if (tolower(search[xdo][ydo]) == user[flag])
 					flag++;
 				else
@@ -132,8 +153,9 @@ bool upL(char** search, string user, int x, int y, int row, int column)
 		if (flag == user.length() - 1)
 		{
 			ydo = y;
-			for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo--)
+			for (int xdo = x; xdo > (x - user.length()); xdo--, ydo--)
 					search[xdo][ydo]=toupper(search[xdo][ydo]);
+			cout << "Found one upL";
 			return true;
 		}
 		else
@@ -156,6 +178,7 @@ bool upM(char** search, string user, int x, int y, int row, int column)
 		{
 			for (int ydo = y; ydo > (y - user.length()) + 1; ydo--)
 				search[x][ydo] = toupper(search[x][ydo]);
+			cout << "Found one upM";
 			return true;
 		}
 		else
@@ -166,6 +189,7 @@ bool upM(char** search, string user, int x, int y, int row, int column)
 }
 bool upR(char** search, string user, int x, int y, int row, int column)
 {
+
 	int flag = 0, ydo=y;
 	if ((x + user.length() <= row) && (y - user.length()+1 >= 0))
 	{
@@ -177,6 +201,7 @@ bool upR(char** search, string user, int x, int y, int row, int column)
 			ydo = y;
 			for (int xdo = x; xdo < x + user.length(); xdo++, ydo--)
 					search[xdo][ydo] = toupper(search[xdo][ydo]);
+			cout << "found one upR";
 			return true;
 		}
 		else
@@ -197,6 +222,7 @@ bool midL(char** search, string user, int x, int y, int row, int column)
 		{
 			for (int xdo = x; xdo > (x - user.length()); xdo--)
 				search[xdo][y] = toupper(search[xdo][y]);
+			cout << "found one midL";
 			return true;
 		}
 		else
@@ -217,6 +243,7 @@ bool midR(char** search, string user, int x, int y, int row, int column)
 		{
 			for (int xdo = x; xdo < x + user.length(); xdo++)
 				search[xdo][y] = toupper(search[xdo][y]);
+			cout << "found one midR";
 			return true;
 		}
 		else
@@ -228,16 +255,19 @@ bool midR(char** search, string user, int x, int y, int row, int column)
 bool loL(char** search, string user, int x, int y, int row, int column)
 {
 	int flag = 0, ydo=y;
-	if ((x - user.length()+1 >= 0) && (y + user.length()<=column))
+	if (user == "joy")
+		cout << "aaaaaa";
+	if ((x - user.length()+1 > 0) && (y + user.length()<=column))
 	{
-		for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo++)
+		for (int xdo = x; xdo >= (x - user.length()) + 1; xdo--, ydo++)
 				if (tolower(search[xdo][ydo]) == user[flag])
 					flag++;
 		if (flag == user.length())
 		{
 			ydo = y;
-			for (int xdo = x; xdo > (x - user.length()) + 1; xdo--, ydo++)
+			for (int xdo = x; xdo >= (x - user.length()) + 1; xdo--, ydo++)
 					search[xdo][ydo] = toupper(search[xdo][ydo]);
+			cout << "found one loL";
 			return true;
 		}
 		else
@@ -258,6 +288,7 @@ bool loM(char** search, string user, int x, int y, int row, int column)
 		{
 			for (int ydo = y; ydo <= y + user.length(); ydo++)
 				search[x][ydo] = toupper(search[x][ydo]);
+			cout << "found one loM";
 			return true;
 		}
 		else
@@ -268,6 +299,7 @@ bool loM(char** search, string user, int x, int y, int row, int column)
 }
 bool loR(char** search, string user, int x, int y, int row, int column)
 {
+
 	int flag = 0, ydo=y;
 	if ((x + user.length() <= row) && (y + user.length() <= column))
 	{
@@ -278,7 +310,8 @@ bool loR(char** search, string user, int x, int y, int row, int column)
 		{
 			ydo = y;
 			for (int xdo = x; xdo < x + user.length(); xdo++, ydo++)
-					search[xdo][ydo] = toupper(search[xdo][ydo]);
+				search[xdo][ydo] = toupper(search[xdo][ydo]);
+			cout << "found one loR";
 			return true;
 		}
 		else

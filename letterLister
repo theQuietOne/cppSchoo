@@ -1,0 +1,58 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<vector>
+using namespace std;
+void main()
+{
+	cout << "Please wait for dictionary file to be read:" << endl;
+	vector<string> words;
+	string userin = "", dictStorage=" ", userStorage=" ";
+	ifstream in;
+	bool checkDo = false, stayIn=true;
+	//populate the dictionary...vector
+	in.open("lowerDone.txt");
+	getline(in, dictStorage);
+	words.push_back(dictStorage);
+	while (!in.eof())
+	{
+		getline(in, dictStorage);
+		words.push_back(dictStorage);
+	}
+	in.close();
+	//see if words match user input
+	while (stayIn)
+	{
+		cout << "Enter letters to find the thing!  (enter '-' to end)"<<endl<<userin;
+		userin += _getch();
+		system("CLS");
+		if (userin[userin.length() - 1] == '-')
+			break;
+		for (int counter = 0; counter < words.size(); counter++)
+		{
+			if (userin.length() <= words[counter].length())
+			{
+				userStorage = userin;
+				dictStorage = words[counter];
+				checkDo = false;
+				while (checkDo == false)
+				{
+					checkDo = true;
+					for (int dictcount = 0; dictcount < dictStorage.length(); dictcount++)
+						for (int usercount = 0; usercount < userStorage.length(); usercount++)
+						{
+							if (userStorage[usercount] == dictStorage[dictcount])
+							{
+								checkDo = false;
+								userStorage.erase(usercount, 1);
+								dictStorage.erase(dictcount, 1);
+							}
+						}
+				}
+				if (userStorage.length() == 0)
+					cout << words[counter] << endl;
+			}
+		}
+	}
+}

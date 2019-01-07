@@ -1,0 +1,62 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+//useful for skipping over used memory, easy to screw up by losing a link or not discarding memory once it's been used
+//types: singularly linked (one way), doubly linked (bi-directional), circularly linked
+
+//well the head node's connected to the...next node and the next node's connected to the...next node (but you can't go back if it's singularly linked 'cuz its one-directional only)
+//each node is an int and a pointer to the next node
+
+//in ansi c structs are used in place of classes, but can't contain functions.  nodes are structs and you have to do this all manually and WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY
+//don't mess with head node outside of creation
+
+struct node{
+	string name;
+	int age;
+	node* next;
+};
+
+void main()
+{
+	int age=0;
+	string name;
+	node* first, *newNode, *last;
+	cout<<"Enter a name: ";
+	cin>>name;
+	cout<<"Enter an age (-1 to quit): ";
+	cin>>age;
+	first=NULL;	//IMPORTANT!
+	while(age!=-1)
+	{
+		newNode=new node;
+		newNode->age=age;
+		newNode->name=name;
+		if(first==NULL)
+		{
+			first=newNode;
+			last=newNode;
+		}
+		else
+		{
+			last->next=newNode;
+			last=newNode;
+			last->next=NULL;
+		}
+		cout<<"Enter a name: ";
+		cin>>name;
+		cout<<"Enter an age (-1 to quit): ";
+		cin>>age;
+	}
+
+	cout<<"Name\t\tAge"<<endl;
+	cout<<first->name<<"\t\t"<<first->age<<endl;
+	newNode=first->next;
+	while(newNode->next!=NULL)
+	{
+		cout<<newNode->name<<"\t\t"<<newNode->age<<endl;
+		newNode=newNode->next;
+	}
+	cout<<newNode->name<<"\t\t"<<newNode->age<<endl;
+	getch();
+}

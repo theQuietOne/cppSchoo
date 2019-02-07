@@ -55,7 +55,26 @@ Fractions::Fractions(int num, int denum)
 }
 Fractions::Fractions(string frat)
 {
-	//format is <mixed&>num
+	//format is <mixed&>num/denom
+	string flag="";
+
+	for(int count=0; count<frat.length(); count++)
+	{
+		if(frat[count]=='/')
+			flag+='/';
+		else if(frat[count]=='&')
+			flag+='&';
+	}
+	if(flag=="/")
+	{
+
+	}
+	else if(flag=="&/")
+	{
+		
+	}
+	else
+		cout<<"Invalid input";
 }
 Fractions Fractions::reduce(void)
 {

@@ -1,8 +1,12 @@
-//header
+//header file
+#pragma once
+#include<string>
+#include<ostream>
+using namespace std;
 #ifndef _FRACTIONS_
 #define _FRACTIONS_
 
-class Fractions{
+class Fractions {
 public:
 	//Constructor
 	Fractions();
@@ -10,185 +14,210 @@ public:
 	Fractions(string);
 	//calculate
 	Fractions reduce(void);
- 	Fractions multFrac(Fractions);
- 	Fractions divideFrac(Fractions);
+	Fractions multFrac(Fractions);
+	Fractions divideFrac(Fractions);
 	void mixedFrac(Fractions);
- 	Fractions addFrac(Fractions);
- 	Fractions subtractFrac(Fractions);
- 	bool equalFrac(Fractions);
- 	bool isLessThanFrac(Fractions);
- 	bool isGreaterThanFrac(Fractions);
+	Fractions addFrac(Fractions);
+	Fractions subtractFrac(Fractions);
+	bool equalFrac(Fractions);
+	bool isLessThanFrac(Fractions);
+	bool isGreaterThanFrac(Fractions);
 	//accessors
- 	string showFrac();
+	string showFrac();
 	void setFrac(string);
 	void setNum(int);
- 	void setDenom(int);
- 	int showDenom();
- 	int showNum();
+	void setDenom(int);
+	int showDenom();
+	int showNum();
 	Fractions copyFrac(Fractions);
 	void clearFrac();
 
 private:
-	int fractDenom;
-	int fractNum;
-	int wholePart;
+	int fractDenom;		//denominator
+	int fractNum;		//numerator
+	int wholePart;		//mixed number part
 };
 
-Fractions operator*(Fractions , Fractions );
-Fractions operator/(Fractions , Fractions );
-Fractions operator+(Fractions , Fractions );
-Fractions operator-(Fractions , Fractions );
+Fractions operator*(Fractions, Fractions);
+Fractions operator/(Fractions, Fractions);
+Fractions operator+(Fractions, Fractions);
+Fractions operator-(Fractions, Fractions);
 bool operator<(Fractions, Fractions);
 bool operator<=(Fractions, Fractions);
 bool operator>(Fractions, Fractions);
 bool operator>=(Fractions, Fractions);
-ostream& operator<<(ostream& , Fractions& );
+ostream& operator<<(ostream&, Fractions&);
 #endif 
-//resource
+
+//resource file
+
 #include "Fractions.h"
-//Constructor
-Fractions::Fractions(){}
+using namespace std;
+//constructors
+Fractions::Fractions() {}
 Fractions::Fractions(int num, int denum)
 {
-	fractNum=num;
-	fractDenom=denum;
+	fractNum = num;
+	fractDenom = denum;
 }
-Fractions::Fractions(string frat)
+Fractions::Fractions(string frat)				//constructs class with predetermined value; format is below
 {
 	//format is <mixed&>num/denom
-	string flag="";
-
-	for(int count=0; count<frat.length(); count++)
+	string flag = "";
+	int divplace = 0, andplace = 0;
+	for (int count = 0; count < frat.length(); count++)
 	{
-		if(frat[count]=='/')
-			flag+='/';
-		else if(frat[count]=='&')
-			flag+='&';
+		if (frat[count] == '/')
+		{
+			flag += '/';
+			divplace = count;
+		}
+		else if (frat[count] == '&')
+		{
+			flag += '&';
+			andplace = count;
+		}
 	}
-	if(flag=="/")
+	if (flag == "/")
 	{
-
+		fractNum = stoi(frat.substr(0, divplace));
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
 	}
-	else if(flag=="&/")
+	else if (flag == "&/")
 	{
-		
+		wholePart = stoi(frat.substr(0, andplace));
+		fractNum = stoi(frat.substr(andplace + 1, divplace - (andplace + 1)));
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
 	}
 	else
-		cout<<"Invalid input";
+		fractNum = sqrt(-1);
+	fractDenom = sqrt(-1);
 }
-Fractions Fractions::reduce(void)
+//operations
+Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 {
 	int biggest;
-	if(fractNum<fractDenom)
-		biggest=fractDenom;
+	if (fractNum < fractDenom)
+		biggest = fractDenom;
 	else
-		biggest=fractNum;
-	for(int reduce=2; reduce<biggest; reduce++)
-		if(fractNum%reduce==0 && fractDenom%reduce==0)
+		biggest = fractNum;
+	bool flag = true;
+	while (flag == true)
+	for (int reduce = 2; reduce < biggest; reduce++)
+	{
+		flag = false;
+		if (fractNum%reduce == 0 && fractDenom%reduce == 0)
 		{
-			fractNum/=reduce;
-			fractDenom/=reduce;
+			fractNum /= reduce;
+			fractDenom /= reduce;
+			flag = true;
 		}
+	}
+	//return something!!!!!!;
 }
-Fractions Fractions::multFrac(Fractions)
+Fractions Fractions::multFrac(Fractions multdo)	//multiplies two fractions together
 {
 	
 }
-Fractions Fractions::divideFrac(Fractions)
+Fractions Fractions::divideFrac(Fractions divdo)//divides one fraction by another
 {
 
 }
-void Fractions::mixedFrac(Fractions)
+void Fractions::mixedFrac(Fractions mixmake)	//returns an improper fraction as a mixed number
 {
 
 }
-Fractions Fractions::addFrac(Fractions)
+Fractions Fractions::addFrac(Fractions adddo)	//adds two fractions together
 {
 
 }
-Fractions Fractions::subtractFrac(Fractions)
+Fractions Fractions::subtractFrac(Fractions subdo)//subtracts one fraction from another
 {
 
 }
-bool Fractions::equalFrac(Fractions)
+//comparisons
+bool Fractions::equalFrac(Fractions comparedo)		//determines if two fractions are equal
 {
 
 }
-bool Fractions::isLessThanFrac(Fractions)
+bool Fractions::isLessThanFrac(Fractions comparedo)	//determines if a fraction is less than another
 {
 
 }
-bool Fractions::isGreaterThanFrac(Fractions)
+bool Fractions::isGreaterThanFrac(Fractions comparedo)//determines if a fraction is greater than another
 {
 
 }
 //accessors
-string Fractions::showFrac()
+string Fractions::showFrac()						//returns the current content of the object
 {
 
 }
-void Fractions::setFrac(string)
+void Fractions::setFrac(string)						//changes values of numerator and denominator simultaniously
 {
 
 }
-void Fractions::setNum(int)
+void Fractions::setNum(int)							//sets numerator to a value
 {
 
 }
-void Fractions::setDenom(int)
+void Fractions::setDenom(int)						//sets denominator to a value
 {
 
 }
-int Fractions::showDenom()
+int Fractions::showDenom()							//returns current value of denominator
+{
+	return fractDenom;
+}
+int Fractions::showNum()							//returns current value of numerator
+{
+	return fractNum;
+}
+Fractions Fractions::copyFrac(Fractions)			//????????????
 {
 
 }
-int Fractions::showNum()
+void Fractions::clearFrac()							//sets fraction to 0&0/1 (or just 0)
+{
+	fractNum = 0;
+	fractDenom = 1;
+	wholePart = 0;
+}
+//operators
+Fractions operator*(Fractions, Fractions)			//multiplies two fractions
 {
 
 }
-Fractions Fractions::copyFrac(Fractions)
+Fractions operator/(Fractions, Fractions)			//divides two fractions
 {
 
 }
-void Fractions::clearFrac()
+Fractions operator+(Fractions, Fractions)			//adds two fractions
+{
+
+}
+Fractions operator-(Fractions, Fractions)			//subtracts two fractions
 {
 
 }
 
-Fractions operator*(Fractions , Fractions )
+bool operator<(Fractions, Fractions)				//determines if a fraction is less than another 
 {
 
 }
-Fractions operator/(Fractions , Fractions )
+bool operator<=(Fractions, Fractions)				//determines if a fraction is less than or equal to another
 {
 
 }
-Fractions operator+(Fractions , Fractions )
+bool operator>(Fractions, Fractions)				//determines if a fraction is greater than another
 {
 
 }
-Fractions operator-(Fractions , Fractions )
+bool operator>=(Fractions, Fractions)				//determines if a fraction is greater than or equal to another
 {
 
 }
-bool operator<(Fractions, Fractions)
+ostream& operator<<(ostream&, Fractions&)			//allows usage of cout with Fractions
 {
 
-}
-bool operator<=(Fractions, Fractions)
-{
-
-}
-bool operator>(Fractions, Fractions)
-{
-
-}
-bool operator>=(Fractions, Fractions)
-{
-
-}
-ostream& operator<<(ostream& , Fractions& )
-{
-	
 }

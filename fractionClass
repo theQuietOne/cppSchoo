@@ -52,6 +52,8 @@ ostream& operator<<(ostream&, Fractions&);
 //resource file
 
 #include "Fractions.h"
+#include<conio.h>
+#include<iostream>
 using namespace std;
 //constructors
 Fractions::Fractions() {}
@@ -90,12 +92,14 @@ Fractions::Fractions(string frat)				//constructs class with predetermined value
 		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
 	}
 	else
-		fractNum = sqrt(-1);
-	fractDenom = sqrt(-1);
+	{
+		cout<<"ERROR: invalid format";
+	}
 }
 //operations
 Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 {
+	Fractions redo;
 	int biggest;
 	if (fractNum < fractDenom)
 		biggest = fractDenom;
@@ -113,11 +117,15 @@ Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 			flag = true;
 		}
 	}
+	redo.fractNum=fractNum;
+	redo.fractDenom=fractDenom;
+	return redo;
 	//return something!!!!!!;
 }
 Fractions Fractions::multFrac(Fractions multdo)	//multiplies two fractions together
 {
-	
+	Fractions multing;
+	multing.fractNum=fractNum*multdo.fractNum;
 }
 Fractions Fractions::divideFrac(Fractions divdo)//divides one fraction by another
 {

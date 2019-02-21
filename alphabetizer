@@ -16,13 +16,13 @@ void main()
 	countdo.open("alphabefile.txt");
 	out.open("alphabeted.txt");
 	getline(countdo, storage, ' ');
-	while (!countdo.eof())
+	while (!countdo.eof())					//count number of words for array allocation
 	{
 		county += 1;
 		getline(countdo, storage, ' ');
 	}
 	ar = new string[county];
-	for (int drac = 1; drac < county; drac++)
+	for (int drac = 1; drac < county; drac++)		//parse strings for non-letter characters (like spaces), then add them to the array
 	{
 		storage = "";
 		thingus = true;
@@ -41,14 +41,14 @@ void main()
 			}
 		}
 	}
-	for (int drac = 0; drac < county; drac++)
+	for (int drac = 0; drac < county; drac++)		//lowercases the string for simpler alphabetizing
 	{
 		for (int aaa = 0; aaa < ar[drac].length(); aaa++)
 			ar[drac][aaa]=tolower(ar[drac][aaa]);
 	}
 	cout << "Parsing complete!  Now alphabetizing your file" << endl;
 	thingus = true;
-	while (thingus == true)
+	while (thingus == true)					//alphabetizes the array using...a bubble sort, I think
 	{
 		thingus = false;
 		for (int outer = 0; outer < county - 1; outer++)
@@ -59,11 +59,11 @@ void main()
 				swap(ar[outer], ar[outer + 1]);
 			}
 		}
-		cout << "." ;
+		cout << "." ;	//this is just here to give the user something to look at
 	}
 	storage = ar[0];
 	out << ar[0] << endl;
-	for (int drac = 1; drac < county; drac++)
+	for (int drac = 1; drac < county; drac++)		//print the contents of the array to a file (I'm pretty sure the storage thing's there to ensure there aren't duplicates?)
 	{
 		if (ar[drac] != storage)
 			out << ar[drac] << endl;

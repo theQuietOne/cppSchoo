@@ -1,0 +1,60 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+using namespace std;	
+struct node {
+	string arr;
+	node* next;
+};
+void main()
+{
+	node *firstest, *lastest, *newest=new node;
+	firstest = lastest = newest;
+	firstest->next = NULL;
+	bool thingus = true;
+	char ministorage;
+	string storage;
+	ifstream in;
+	ofstream out;
+	in.open("alphabefile.txt");
+	while (!in.eof())			//enter file into linked list, parse for non-letter characters
+	{
+		ministorage = in.get();
+		if ((ministorage >= 65 && ministorage <= 90) || (ministorage >= 97 && ministorage <= 122))
+			storage += ministorage;
+		else if(storage.length()>0)
+		{
+			lastest->arr = storage;
+			newest = new node;
+			lastest->next = newest;
+			lastest = newest;
+			lastest->next = NULL;
+		}
+	}
+	if (storage != "")
+	{
+		lastest->arr = storage;
+		newest = new node;
+		lastest->next = newest;
+		lastest = newest;
+		lastest->next = NULL;
+	}
+	in.close();
+	//alphabetize file using bubble sort
+	out.open("alphabeted.txt");
+	while (thingus == true)
+	{
+		thingus = false;
+		while()
+	}
+	storage = ar[0];
+	out << ar[0] << endl;
+	for (int drac = 1; drac < county; drac++)
+	{
+		if (ar[drac] != storage)
+			out << ar[drac] << endl;
+		storage = ar[drac];
+	}
+	out.close();
+}

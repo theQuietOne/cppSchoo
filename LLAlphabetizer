@@ -12,7 +12,6 @@ void main()
 	node *firstest, *lastest, *newest=new node;
 	firstest = lastest = newest;
 	firstest->next = NULL;
-	bool thingus = true;
 	char ministorage;
 	string storage;
 	ifstream in;
@@ -30,8 +29,10 @@ void main()
 			lastest->next = newest;
 			lastest = newest;
 			lastest->next = NULL;
+			storage = "";
 		}
 	}
+	
 	if (storage != "")
 	{
 		lastest->arr = storage;
@@ -42,19 +43,32 @@ void main()
 	}
 	in.close();
 	//alphabetize file using bubble sort
-	out.open("alphabeted.txt");
+	node *search;
+	bool thingus = true;
 	while (thingus == true)
 	{
+		search = firstest;
 		thingus = false;
-		while()
+		while (search->next != NULL)
+		{
+			if (search->next->arr.compare(search->arr) < 0)
+			{
+				thingus = true;
+				storage = search->arr;
+				search->arr = search->next->arr;
+				search->next->arr = storage;
+			}
+			search = search->next;
+		}
 	}
-	storage = ar[0];
-	out << ar[0] << endl;
-	for (int drac = 1; drac < county; drac++)
+	//print contents of linked list to a file
+	search = firstest->next;
+	out.open("alphabeted.txt");
+	while (search->next != NULL)
 	{
-		if (ar[drac] != storage)
-			out << ar[drac] << endl;
-		storage = ar[drac];
+		out << search->arr << endl;
+		search = search->next;
 	}
+	out << search->arr;
 	out.close();
 }

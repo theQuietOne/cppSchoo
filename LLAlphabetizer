@@ -16,7 +16,7 @@ void main()
 	string storage;
 	ifstream in;
 	ofstream out;
-	in.open("alphabefile.txt");
+	in.open("alphabefilell.txt");
 	while (!in.eof())			//enter file into linked list, parse for non-letter characters
 	{
 		ministorage = in.get();
@@ -63,7 +63,7 @@ void main()
 	}
 	//print contents of linked list to a file
 	search = firstest->next;
-	out.open("alphabeted.txt");
+	out.open("alphabetedll.txt");
 	while (search->next != NULL)
 	{
 		out << search->arr << endl;

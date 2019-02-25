@@ -93,7 +93,7 @@ Fractions::Fractions(string frat)				//constructs class with predetermined value
 	}
 	else
 	{
-		cout<<"ERROR: invalid format";
+		cout << "ERROR: invalid format";
 	}
 }
 //operations
@@ -107,25 +107,25 @@ Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 		biggest = fractNum;
 	bool flag = true;
 	while (flag == true)
-	for (int reduce = 2; reduce < biggest; reduce++)
-	{
-		flag = false;
-		if (fractNum%reduce == 0 && fractDenom%reduce == 0)
+		for (int reduce = 2; reduce < biggest; reduce++)
 		{
-			fractNum /= reduce;
-			fractDenom /= reduce;
-			flag = true;
+			flag = false;
+			if (fractNum%reduce == 0 && fractDenom%reduce == 0)
+			{
+				fractNum /= reduce;
+				fractDenom /= reduce;
+				flag = true;
+			}
 		}
-	}
-	redo.fractNum=fractNum;
-	redo.fractDenom=fractDenom;
+	redo.fractNum = fractNum;
+	redo.fractDenom = fractDenom;
 	return redo;
 	//return something!!!!!!;
 }
 Fractions Fractions::multFrac(Fractions multdo)	//multiplies two fractions together
 {
 	Fractions multing;
-	multing.fractNum=fractNum*multdo.fractNum;
+	multing.fractNum = fractNum * multdo.fractNum;
 }
 Fractions Fractions::divideFrac(Fractions divdo)//divides one fraction by another
 {
@@ -192,38 +192,38 @@ void Fractions::clearFrac()							//sets fraction to 0&0/1 (or just 0)
 	wholePart = 0;
 }
 //operators
-Fractions operator*(Fractions, Fractions)			//multiplies two fractions
+Fractions operator*(Fractions first, Fractions second)			//multiplies two fractions
 {
-
+	return first.multFrac(second);
 }
-Fractions operator/(Fractions, Fractions)			//divides two fractions
+Fractions operator/(Fractions first, Fractions second)			//divides two fractions
 {
-
+	return first.divideFrac(second);
 }
-Fractions operator+(Fractions, Fractions)			//adds two fractions
+Fractions operator+(Fractions first, Fractions second)			//adds two fractions
 {
-
+	return first.addFrac(second);
 }
-Fractions operator-(Fractions, Fractions)			//subtracts two fractions
+Fractions operator-(Fractions first, Fractions second)			//subtracts two fractions
 {
-
+	return first.subtractFrac(second);
 }
 
-bool operator<(Fractions, Fractions)				//determines if a fraction is less than another 
+bool operator<(Fractions first, Fractions second)				//determines if a fraction is less than another 
 {
-
+	return first.isLessThanFrac(second);
 }
-bool operator<=(Fractions, Fractions)				//determines if a fraction is less than or equal to another
+bool operator<=(Fractions first, Fractions second)				//determines if a fraction is less than or equal to another
 {
-
+	return (first.isLessThanFrac(second) || first.equalFrac(second));
 }
-bool operator>(Fractions, Fractions)				//determines if a fraction is greater than another
+bool operator>(Fractions first, Fractions second)				//determines if a fraction is greater than another
 {
-
+	return first.isGreaterThanFrac(second);
 }
-bool operator>=(Fractions, Fractions)				//determines if a fraction is greater than or equal to another
+bool operator>=(Fractions first, Fractions second)				//determines if a fraction is greater than or equal to another
 {
-
+	return (first.isGreaterThanFrac(second) || first.equalFrac(second));
 }
 ostream& operator<<(ostream&, Fractions&)			//allows usage of cout with Fractions
 {

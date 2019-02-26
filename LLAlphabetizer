@@ -64,11 +64,16 @@ void main()
 	//print contents of linked list to a file
 	search = firstest->next;
 	out.open("alphabetedll.txt");
+	out << firstest->arr << endl;
+	storage = firstest->arr;
 	while (search->next != NULL)
 	{
-		out << search->arr << endl;
+		if(search->arr!=storage)
+			out << search->arr << endl;
+		storage = search->arr;
 		search = search->next;
 	}
-	out << search->arr;
+	if(storage!=lastest->arr)
+		out << lastest->arr << endl;
 	out.close();
 }

@@ -1,0 +1,23 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+using namespace std;
+struct node
+{
+	string strSto;
+	node* next;
+};
+void main()
+{
+	node *firstest, *lastest, *newest=new node;
+	firstest=lastest=newest;
+	newest->next=NULL;
+	ifstream in;
+	in.open("dict.txt");
+	while(!in.eof())
+	{
+		
+	}
+	getch();
+}

@@ -2,30 +2,29 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-using namespace std;
-struct node
-{
-	string strSto;
-	string alphado;
+using namespace std;	
+struct node {
+	string arr;
 	node* next;
 };
 void main()
 {
-	char ministorage;
-	string storage="";
-	node *firstest, *lastest, *newest = new node;
+	node *firstest, *lastest, *newest=new node;
 	firstest = lastest = newest;
-	newest->next = NULL;
+	firstest->next = NULL;
+	char ministorage;
+	string storage;
 	ifstream in;
-	in.open("dict.txt");
+	ofstream out;
+	in.open("alphabefilell.txt");
 	while (!in.eof())			//enter file into linked list, parse for non-letter characters
 	{
 		ministorage = in.get();
 		if ((ministorage >= 65 && ministorage <= 90) || (ministorage >= 97 && ministorage <= 122))
-			storage += tolower(ministorage);
-		else if (storage.length() > 0)
+			storage += ministorage;
+		else if(storage.length()>0)
 		{
-			lastest->strSto = storage;
+			lastest->arr = storage;
 			newest = new node;
 			lastest->next = newest;
 			lastest = newest;
@@ -33,46 +32,48 @@ void main()
 			storage = "";
 		}
 	}
+	
 	if (storage != "")
 	{
-		lastest->strSto = storage;
+		lastest->arr = storage;
 		newest = new node;
 		lastest->next = newest;
 		lastest = newest;
 		lastest->next = NULL;
 	}
-	node *stor=firstest;
-	while (stor->next!=NULL)
-	{
-		stor->alphado = stor->strSto;
-		bool flag = false;
-		while (flag == false)
-		{
-			flag = true;
-			for (int count = 0; count < stor->alphado.length() - 2; count++)
-			{
-				if (stor->alphado[count] > stor->alphado[count + 1])
-				{
-					swap(stor->alphado[count], stor->alphado[count + 1]);
-					flag = false;
-				}
-			}
-		}
-		stor = stor->next;
-	}
-	bool flag = false;
-	while (flag == false)
-	{
-		flag = true;
-		for (int count = 0; count < stor->alphado.length() - 2; count++)
-		{
-			if (stor->alphado[count] > stor->alphado[count + 1])
-			{
-				swap(stor->alphado[count], stor->alphado[count + 1]);
-				flag = false;
-			}
-		}
-	}
 	in.close();
-	getch();
+	//alphabetize file using bubble sort
+	node *search;
+	bool thingus = true;
+	while (thingus == true)
+	{
+		search = firstest;
+		thingus = false;
+		while (search->next != NULL)
+		{
+			if (search->next->arr.compare(search->arr) < 0)
+			{
+				thingus = true;
+				storage = search->arr;
+				search->arr = search->next->arr;
+				search->next->arr = storage;
+			}
+			search = search->next;
+		}
+	}
+	//print contents of linked list to a file
+	search = firstest->next;
+	out.open("alphabetedll.txt");
+	out << firstest->arr << endl;
+	storage = firstest->arr;
+	while (search->next != NULL)
+	{
+		if(search->arr!=storage)
+			out << search->arr << endl;
+		storage = search->arr;
+		search = search->next;
+	}
+	if(storage!=lastest->arr)
+		out << lastest->arr << endl;
+	out.close();
 }

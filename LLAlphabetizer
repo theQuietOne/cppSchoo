@@ -2,29 +2,30 @@
 #include<iostream>
 #include<string>
 #include<fstream>
-using namespace std;	
-struct node {
-	string arr;
+using namespace std;
+struct node
+{
+	string strSto;
+	string alphado;
 	node* next;
 };
 void main()
 {
-	node *firstest, *lastest, *newest=new node;
-	firstest = lastest = newest;
-	firstest->next = NULL;
 	char ministorage;
-	string storage;
+	string storage="";
+	node *firstest, *lastest, *newest = new node;
+	firstest = lastest = newest;
+	newest->next = NULL;
 	ifstream in;
-	ofstream out;
-	in.open("alphabefilell.txt");
+	in.open("dict.txt");
 	while (!in.eof())			//enter file into linked list, parse for non-letter characters
 	{
 		ministorage = in.get();
 		if ((ministorage >= 65 && ministorage <= 90) || (ministorage >= 97 && ministorage <= 122))
-			storage += ministorage;
-		else if(storage.length()>0)
+			storage += tolower(ministorage);
+		else if (storage.length() > 0)
 		{
-			lastest->arr = storage;
+			lastest->strSto = storage;
 			newest = new node;
 			lastest->next = newest;
 			lastest = newest;
@@ -32,48 +33,46 @@ void main()
 			storage = "";
 		}
 	}
-	
 	if (storage != "")
 	{
-		lastest->arr = storage;
+		lastest->strSto = storage;
 		newest = new node;
 		lastest->next = newest;
 		lastest = newest;
 		lastest->next = NULL;
 	}
-	in.close();
-	//alphabetize file using bubble sort
-	node *search;
-	bool thingus = true;
-	while (thingus == true)
+	node *stor=firstest;
+	while (stor->next!=NULL)
 	{
-		search = firstest;
-		thingus = false;
-		while (search->next != NULL)
+		stor->alphado = stor->strSto;
+		bool flag = false;
+		while (flag == false)
 		{
-			if (search->next->arr.compare(search->arr) < 0)
+			flag = true;
+			for (int count = 0; count < stor->alphado.length() - 2; count++)
 			{
-				thingus = true;
-				storage = search->arr;
-				search->arr = search->next->arr;
-				search->next->arr = storage;
+				if (stor->alphado[count] > stor->alphado[count + 1])
+				{
+					swap(stor->alphado[count], stor->alphado[count + 1]);
+					flag = false;
+				}
 			}
-			search = search->next;
+		}
+		stor = stor->next;
+	}
+	bool flag = false;
+	while (flag == false)
+	{
+		flag = true;
+		for (int count = 0; count < stor->alphado.length() - 2; count++)
+		{
+			if (stor->alphado[count] > stor->alphado[count + 1])
+			{
+				swap(stor->alphado[count], stor->alphado[count + 1]);
+				flag = false;
+			}
 		}
 	}
-	//print contents of linked list to a file
-	search = firstest->next;
-	out.open("alphabetedll.txt");
-	out << firstest->arr << endl;
-	storage = firstest->arr;
-	while (search->next != NULL)
-	{
-		if(search->arr!=storage)
-			out << search->arr << endl;
-		storage = search->arr;
-		search = search->next;
-	}
-	if(storage!=lastest->arr)
-		out << lastest->arr << endl;
-	out.close();
+	in.close();
+	getch();
 }

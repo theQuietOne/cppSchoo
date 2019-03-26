@@ -17,7 +17,7 @@ void main()
 	firstest = lastest = newest;
 	newest->next = NULL;
 	ifstream in;
-	in.open("dict.txt");
+	in.open("anaDict.txt");
 	while (!in.eof())			//enter file into linked list, parse for non-letter characters
 	{
 		ministorage = in.get();
@@ -41,6 +41,7 @@ void main()
 		lastest = newest;
 		lastest->next = NULL;
 	}
+
 	node *stor=firstest;
 	while (stor->next!=NULL)
 	{
@@ -49,6 +50,7 @@ void main()
 		while (flag == false)
 		{
 			flag = true;
+			if(stor->alphado.length()>1)
 			for (int count = 0; count < stor->alphado.length() - 2; count++)
 			{
 				if (stor->alphado[count] > stor->alphado[count + 1])
@@ -60,10 +62,12 @@ void main()
 		}
 		stor = stor->next;
 	}
+
 	bool flag = false;
 	while (flag == false)
 	{
 		flag = true;
+		if (stor->alphado.length() > 1)
 		for (int count = 0; count < stor->alphado.length() - 2; count++)
 		{
 			if (stor->alphado[count] > stor->alphado[count + 1])
@@ -73,6 +77,21 @@ void main()
 			}
 		}
 	}
+
+	flag = false;
+	while (flag = false)
+	{
+		flag = true;
+		stor = firstest;
+		while (stor->next != NULL)
+		{
+			if (stor->next->alphado > stor->alphado)
+			{
+				swap(stor->alphado, stor->next->alphado);
+				flag = false;
+			}
+		}
+	}
 	in.close();
-	getch();
+	_getch();
 }

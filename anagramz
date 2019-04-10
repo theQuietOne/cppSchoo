@@ -18,12 +18,13 @@ void main()
 	newest->next = NULL;
 	ifstream in;
 	in.open("anaDict.txt");
-	while (!in.eof())			//enter file into linked list, parse for non-letter characters
+	//enter file into linked list, parse for non-letter characters
+	while (!in.eof())
 	{
 		ministorage = in.get();
 		if ((ministorage >= 65 && ministorage <= 90) || (ministorage >= 97 && ministorage <= 122))
 			storage += tolower(ministorage);
-		else if (storage.length() > 0)
+		else if (ministorage=='\n'&&storage.length() > 0)
 		{
 			lastest->strSto = storage;
 			newest = new node;
@@ -33,65 +34,72 @@ void main()
 			storage = "";
 		}
 	}
-	if (storage != "")
+	//input final word
+	if (storage.length() > 0)
 	{
 		lastest->strSto = storage;
 		newest = new node;
 		lastest->next = newest;
 		lastest = newest;
 		lastest->next = NULL;
+		storage = "";
 	}
-
-	node *stor=firstest;
-	while (stor->next!=NULL)
+	//one additional node as an end-of-list marker
+	newest = new node;
+	lastest->next = newest;
+	lastest = newest;
+	lastest->next = NULL;
+	storage = "";
+	//place letters to be sorted
+	node *stor = firstest;
+	while (stor->next != NULL)
 	{
 		stor->alphado = stor->strSto;
-		bool flag = false;
-		while (flag == false)
-		{
-			flag = true;
-			if(stor->alphado.length()>1)
-			for (int count = 0; count < stor->alphado.length() - 2; count++)
-			{
-				if (stor->alphado[count] > stor->alphado[count + 1])
-				{
-					swap(stor->alphado[count], stor->alphado[count + 1]);
-					flag = false;
-				}
-			}
-		}
 		stor = stor->next;
 	}
-
-	bool flag = false;
-	while (flag == false)
+	stor = firstest;
+	//sort letters into an alphabetical sequence
+	bool sorted = false;
+	while (stor->next != NULL)
 	{
-		flag = true;
+		sorted = false;
 		if (stor->alphado.length() > 1)
-		for (int count = 0; count < stor->alphado.length() - 2; count++)
-		{
-			if (stor->alphado[count] > stor->alphado[count + 1])
+			while (sorted == false)
 			{
-				swap(stor->alphado[count], stor->alphado[count + 1]);
-				flag = false;
+				sorted = true;
+				for (int count = 0; count < stor->alphado.length() - 1; count++)
+				{
+					if (stor->alphado[count] > stor->alphado[count + 1])
+					{
+						swap(stor->alphado[count], stor->alphado[count + 1]);
+						sorted = false;
+					}
+				}
 			}
-		}
+		stor = stor->next;
 	}
-
-	flag = false;
-	while (flag = false)
+	//sort by sequence
+	sorted = false;
+	while (sorted == false)
 	{
-		flag = true;
 		stor = firstest;
+		sorted = true;
 		while (stor->next != NULL)
 		{
-			if (stor->next->alphado > stor->alphado)
+			if (stor->alphado > stor->next->alphado&&stor->next->alphado!="")
 			{
-				swap(stor->alphado, stor->next->alphado);
-				flag = false;
+				storage = stor->alphado;
+				stor->alphado = stor->next->alphado;
+				stor->next->alphado = storage;
+				storage = stor->strSto;
+				stor->strSto = stor->next->strSto;
+				stor->next->strSto = storage;
+				sorted = false;
 			}
+			stor = stor->next;
 		}
 	}
+	//count number of anagrams
 	in.close();
 	_getch();
 }

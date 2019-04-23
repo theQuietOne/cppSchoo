@@ -249,7 +249,7 @@ void Fractions::clearFrac()							//sets fraction to 0/1
 	fractNum = 0;
 	fractDenom = 1;
 }
-//operators
+//operators		note: all of these were poorly explained by instructor and I don't understand how the final operator works
 Fractions operator*(Fractions first, Fractions second)			//multiplies two fractions
 {
 	return first.multFrac(second);
@@ -283,15 +283,186 @@ bool operator>=(Fractions first, Fractions second)				//determines if a fraction
 {
 	return (first.isGreaterThanFrac(second) || first.equalFrac(second));
 }
-ostream& operator<<(ostream& os, Fractions& frac)			//allows usage of cout with Fractions
+ostream& operator<<(ostream& os, Fractions& frac)			//allows use of iostream operators with Fractions, probably
 {
-	if (frac.showNum()/frac.showDenom > 1)
+	if ((frac.showNum())/(frac.showDenom()) > 1)
 	{
-		os << frac.wholeFind(frac) << "&" << frac.showNum() << "/" << frac.showDenom();
+		os << (frac.wholeFind(frac) + "&" + (frac.showNum() - frac.wholeFind(frac)*frac.showDenom()) + '/' + frac.showDenom());
 	}
 	else
 	{
-		os << frac.showNum() << "/" << frac.showDenom();
+		os << (frac.showNum() + "/" + frac.showDenom());
 	}
 	return os;
+}
+
+//demonstration program
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+#include "Fractions.h"
+void main()
+{
+	int num, stoint;
+	Fractions A, B (2, 3), C("1&3/7");
+	string storage = "";
+	cout << "Enter the number which corresponds to your test!"<<endl;
+	cin >> num;
+	while (num != 0)
+	{
+		switch (num)
+		{
+		case 1:
+			A.reduce();
+			break;
+		case 2:
+			B.reduce();
+			break;
+		case 3:
+			C.reduce();
+			break;
+		case 4:
+			C = A.multFrac(B);
+			break;
+		case 5:
+			C = A.divideFrac(B);
+			break;
+		case 6:
+			A.wholeFind(A);
+			break;
+		case 7:
+			B.wholeFind(B);
+			break;
+		case 8:
+			C.wholeFind(C);
+			break;
+		case 9:
+			C = A.addFrac(B);
+			break;
+		case 10:
+			C = A.subtractFrac(B);
+			break;
+		case 11:
+			C = A + B;
+			break;
+		case 12:
+			cout << A.equalFrac(B);
+			break;
+		case 13:
+			cout << A.isLessThanFrac(B);
+			break;
+		case 14:
+			cout << (B < A);
+			break;
+		case 15:
+			cout << A.isGreaterThanFrac(B);;
+			break;
+		case 16:
+			cout << (B > A);
+			break;
+		case 17:
+			A.showFrac();
+			break;
+		case 18:
+			B.showFrac();
+			break;
+		case 19:
+			C.showFrac();
+			break;
+		case 20:
+			cin >> storage;
+			A.setFrac(storage);
+			break;
+		case 21:
+			cin >> storage;
+			B.setFrac(storage);
+			break;
+		case 22:
+			cin >> storage;
+			C.setFrac(storage);
+			break;
+		case 23:
+			cin >> stoint;
+			A.setNum(stoint);
+			break;
+		case 24:
+			cin >> stoint;
+			B.setNum(stoint);
+			break;
+		case 25:
+			cin >> stoint;
+			C.setNum(stoint);
+			break;
+		case 26:
+			cin >> stoint;
+			A.setDenom(stoint);
+			break;
+		case 27:
+			cin >> stoint;
+			B.setDenom(stoint);
+			break;
+		case 28:
+			cin >> stoint;
+			C.setDenom(stoint);
+			break;
+		case 29:
+			A.showNum();
+			break;
+		case 30:
+			B.showNum();
+			break;
+		case 31:
+			C.showNum();
+			break;
+		case 32:
+			A.showDenom();
+			break;
+		case 33:
+			B.showDenom();
+			break;
+		case 34:
+			C.showDenom();
+			break;
+		case 35:
+			A.copyFrac(B);
+			break;
+		case 36:
+			B.copyFrac(A);
+			break;
+		case 37:
+			A.copyFrac(C);
+			break;
+		case 38:
+			C.copyFrac(A);
+			break;
+		case 39:
+			B.copyFrac(C);
+			break;
+		case 40:
+			C.copyFrac(B);
+			break;
+		case 41:
+			A.clearFrac();
+			break;
+		case 42:
+			B.clearFrac();
+			break;
+		case 43:
+			C.clearFrac();
+			break;
+		case 44:
+			cout << A;
+			break;
+		case 45:
+			cout << B;
+			break;
+		case 46:
+			cout << C;
+			break;
+		}
+		cout << endl << "Enter the number which corresponds to your test!" << endl;
+		cin >> num;
+	}
+	_getch();
 }

@@ -1,7 +1,7 @@
 //header file
 #pragma once
 #include<string>
-#include<ostream>
+#include<iostream>
 using namespace std;
 #ifndef _FRACTIONS_
 #define _FRACTIONS_
@@ -16,7 +16,7 @@ public:
 	Fractions reduce(void);
 	Fractions multFrac(Fractions);
 	Fractions divideFrac(Fractions);
-	void mixedFrac(Fractions);
+	int wholeFind(Fractions);
 	Fractions addFrac(Fractions);
 	Fractions subtractFrac(Fractions);
 	bool equalFrac(Fractions);
@@ -33,9 +33,8 @@ public:
 	void clearFrac();
 
 private:
-	int fractDenom;		//denominator
 	int fractNum;		//numerator
-	int wholePart;		//mixed number part
+	int fractDenom;		//denominator
 };
 
 Fractions operator*(Fractions, Fractions);
@@ -54,6 +53,7 @@ ostream& operator<<(ostream&, Fractions&);
 #include "Fractions.h"
 #include<conio.h>
 #include<iostream>
+#include<string>
 using namespace std;
 //constructors
 Fractions::Fractions() 
@@ -110,9 +110,10 @@ Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 		biggest = fractNum;
 	bool flag = true;
 	while (flag == true)
+	{
+		flag = false;
 		for (int reduce = 2; reduce < biggest; reduce++)
 		{
-			flag = false;
 			if (fractNum%reduce == 0 && fractDenom%reduce == 0)
 			{
 				fractNum /= reduce;
@@ -120,6 +121,7 @@ Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
 				flag = true;
 			}
 		}
+	}
 	redo.fractNum = fractNum;
 	redo.fractDenom = fractDenom;
 	return redo;
@@ -186,7 +188,7 @@ bool Fractions::isGreaterThanFrac(Fractions comparedo)//determines if a fraction
 //accessors
 string Fractions::showFrac()						//returns the current content of the object
 {
-	return (fractNum + "/" + fractDenom);
+	return (to_string(fractNum) + "/" + to_string(fractDenom));
 }
 void Fractions::setFrac(string frat)						//changes values of numerator and denominator simultaniously
 {
@@ -287,15 +289,14 @@ ostream& operator<<(ostream& os, Fractions& frac)			//allows use of iostream ope
 {
 	if ((frac.showNum())/(frac.showDenom()) > 1)
 	{
-		os << (frac.wholeFind(frac) + "&" + (frac.showNum() - frac.wholeFind(frac)*frac.showDenom()) + '/' + frac.showDenom());
+		os << (to_string(frac.wholeFind(frac)) + "&" + to_string(frac.showNum() - frac.wholeFind(frac)*frac.showDenom()) + "/" + to_string(frac.showDenom()));
 	}
 	else
 	{
-		os << (frac.showNum() + "/" + frac.showDenom());
+		os << (to_string(frac.showNum()) + "/" + to_string(frac.showDenom()));
 	}
 	return os;
 }
-
 //demonstration program
 #include<conio.h>
 #include<iostream>
@@ -356,19 +357,19 @@ void main()
 			cout << (B < A);
 			break;
 		case 15:
-			cout << A.isGreaterThanFrac(B);;
+			cout << A.isGreaterThanFrac(B);
 			break;
 		case 16:
 			cout << (B > A);
 			break;
 		case 17:
-			A.showFrac();
+			cout<<A.showFrac();
 			break;
 		case 18:
-			B.showFrac();
+			cout<<B.showFrac();
 			break;
 		case 19:
-			C.showFrac();
+			cout<<C.showFrac();
 			break;
 		case 20:
 			cin >> storage;
@@ -460,9 +461,10 @@ void main()
 		case 46:
 			cout << C;
 			break;
+		default:
+			cout<<"Looks like that doesn't exist.  ";
 		}
 		cout << endl << "Enter the number which corresponds to your test!" << endl;
 		cin >> num;
 	}
-	_getch();
 }

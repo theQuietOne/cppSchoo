@@ -188,7 +188,7 @@ bool Fractions::isGreaterThanFrac(Fractions comparedo)//determines if a fraction
 //accessors
 string Fractions::showFrac()						//returns the current content of the object
 {
-	return (to_string(fractNum) + "/" + to_string(fractDenom));
+	return ((fractNum) + "/" + (fractDenom));
 }
 void Fractions::setFrac(string frat)						//changes values of numerator and denominator simultaniously
 {
@@ -287,16 +287,32 @@ bool operator>=(Fractions first, Fractions second)				//determines if a fraction
 }
 ostream& operator<<(ostream& os, Fractions& frac)			//allows use of iostream operators with Fractions, probably
 {
-	if ((frac.showNum())/(frac.showDenom()) > 1)
+	if(frac.showDenom()==0)
+		os<<"DIVIDE BY ZERO ERROR";
+	else if ((frac.showNum())/(frac.showDenom()) > 1)
 	{
-		os << (to_string(frac.wholeFind(frac)) + "&" + to_string(frac.showNum() - frac.wholeFind(frac)*frac.showDenom()) + "/" + to_string(frac.showDenom()));
+		char str[255];
+		string potato="";
+		potato+=itoa(frac.wholeFind(frac),str,10);
+		potato+="&";
+		potato+=itoa(frac.showNum() - frac.wholeFind(frac)*frac.showDenom(),str,10);
+		potato+="/";
+		potato+=itoa(frac.showDenom(),str,10);
+		os << potato;
 	}
 	else
 	{
-		os << (to_string(frac.showNum()) + "/" + to_string(frac.showDenom()));
+		char str[255];
+		string potato="";
+		string blep;
+		potato+=itoa(frac.showNum(),str,10);
+		potato+="/";
+		potato+=itoa(frac.showDenom(),str,10);
+		os << potato;
 	}
 	return os;
 }
+
 //demonstration program
 #include<conio.h>
 #include<iostream>

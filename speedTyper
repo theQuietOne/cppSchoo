@@ -1,0 +1,47 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<time.h>
+using namespace std;
+void main()
+{
+	srand(time(NULL));
+	char randoms[5], userin[5];
+	string sto1 = "", sto2 = "";
+	for (int count = 0; count < 5; count++)
+	{
+		randoms[count] = (rand() % 93) + 33;
+		if (randoms[count] == 96)
+			randoms[count] = (rand() % 93) + 33;
+		sto1 += randoms[count];
+	}
+	cout << "Press any button to start!";
+	_getch();
+	clock_t timer=clock();
+	while (sto1 != sto2)
+	{
+		sto2 = "";
+		cout << endl;
+		for (int count = 0; count < 5; count++)
+		{
+			cout << randoms[count];
+			cout << "	";
+		}
+		cout << endl;
+		for (int input = 0; input < 5;)
+		{
+			userin[input] = _getch();
+			cout << userin[input];
+			if (userin[input] == 8)
+				input--;
+			else
+				input++;
+		}
+		for (int count = 0; count < 5; count++)
+			sto2 += userin[count];
+	}
+	cout << endl << "Done!" << endl;
+	clock_t timer2 = clock();
+	cout <<"You took " << timer2 - timer<<" milliseconds";
+	_getch();
+}

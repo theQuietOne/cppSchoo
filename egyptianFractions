@@ -1,0 +1,37 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<math.h>
+using namespace std;
+#include"Fractions.h"
+void alg(Fractions);
+void main()
+{
+	Fractions userin;
+	string str;
+	cin >> str;
+	userin.setFrac(str);
+	cout << "----------" << endl;
+	alg(userin);
+	_getch();
+}
+void alg(Fractions dothing)
+{
+	float num, denom;
+	num = dothing.showNum();
+	denom = dothing.showDenom();
+	Fractions firstone, secondone;
+	firstone.setNum(1);
+	firstone.setDenom(ceil(denom/num));
+	cout << firstone<<endl;
+	
+	secondone.setNum(-1*(dothing.showDenom() % dothing.showNum())+dothing.showNum());
+	secondone.setDenom(dothing.showDenom()*ceil(denom / num));
+	secondone.reduce();
+	if (secondone.showNum() == 1)
+	{
+		cout << secondone<<endl;
+	}
+	else
+		alg(secondone);
+}

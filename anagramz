@@ -2,7 +2,10 @@
 #include<iostream>
 #include<string>
 #include<fstream>
+#include<vector>
+#include<algorithm>
 using namespace std;
+string alph(string);
 struct node
 {
 	string strSto;
@@ -11,6 +14,7 @@ struct node
 };
 void main()
 {
+	
 	char ministorage;
 	string storage = "";
 	node *firstest, *lastest, *newest = new node;
@@ -18,7 +22,14 @@ void main()
 	newest->next = NULL;
 	ifstream in;
 	in.open("anaDict.txt");
-	//enter file into linked list, parse for non-letter characters
+	//create end of list marker
+	newest = new node;
+	firstest = newest;
+	lastest = newest;
+	lastest->alphado = '~';
+	lastest->strSto = '~';
+	lastest->next = NULL;
+	//parse strings for non-letter characters, sort into linked list
 	while (!in.eof())
 	{
 		ministorage = in.get();
@@ -26,81 +37,61 @@ void main()
 			storage += tolower(ministorage);
 		else if (ministorage == '\n'&&storage.length() > 0)
 		{
-			lastest->strSto = storage;
 			newest = new node;
-			lastest->next = newest;
-			lastest = newest;
-			lastest->next = NULL;
+			newest->strSto = storage;
+			newest->alphado = alph(storage);
 			storage = "";
-		}
-	}
-	//input final word
-	if (storage.length() > 0)
-	{
-		lastest->strSto = storage;
-		newest = new node;
-		lastest->next = newest;
-		lastest = newest;
-		lastest->next = NULL;
-		storage = "";
-	}
-	//one additional node as an end-of-list marker
-	newest = new node;
-	lastest->next = newest;
-	lastest = newest;
-	lastest->next = NULL;
-	storage = "";
-	//place letters to be sorted
-	node *stor = firstest;
-	while (stor->next != NULL)
-	{
-		stor->alphado = stor->strSto;
-		stor = stor->next;
-	}
-	stor = firstest;
-	//sort letters into an alphabetical sequence
-	bool sorted = false;
-	while (stor->next != NULL)
-	{
-		sorted = false;
-		if (stor->alphado.length() > 1)
-			while (sorted == false)
+			if (firstest->alphado > newest->alphado)
 			{
-				sorted = true;
-				for (int count = 0; count < stor->alphado.length() - 1; count++)
+				newest->next = firstest;
+				firstest = newest;
+			}
+			else
+			{
+				node *stor = firstest;
+				bool flag = true;
+				while (stor->next != NULL && flag == true)
 				{
-					if (stor->alphado[count] > stor->alphado[count + 1])
+					if (stor->next->alphado > newest->alphado)
 					{
-						swap(stor->alphado[count], stor->alphado[count + 1]);
-						sorted = false;
+						newest->next = stor->next;
+						stor->next = newest;
+						flag = false;
 					}
+					stor = stor->next;
 				}
 			}
-		stor = stor->next;
-	}
-	//sort by sequence
-	sorted = false;
-	while (sorted == false)
-	{
-		stor = firstest;
-		sorted = true;
-		while (stor->next != NULL)
-		{
-			if (stor->alphado > stor->next->alphado&&stor->next->alphado != "")
-			{
-				storage = stor->alphado;
-				stor->alphado = stor->next->alphado;
-				stor->next->alphado = storage;
-				storage = stor->strSto;
-				stor->strSto = stor->next->strSto;
-				stor->next->strSto = storage;
-				sorted = false;
-			}
-			stor = stor->next;
 		}
 	}
+	//final input
+	if (storage != "")
+	{
+		newest = new node;
+		newest->strSto = storage;
+		newest->alphado = alph(storage);
+		if (firstest->alphado > newest->alphado)
+		{
+			newest->next = firstest;
+			firstest = newest;
+		}
+		else
+		{
+			node *stor = firstest;
+			bool flag = true;
+			while (stor->next != NULL && flag == true)
+			{
+				if (stor->next->alphado > newest->alphado)
+				{
+					newest->next = stor->next;
+					stor->next = newest;
+					flag = false;
+				}
+				stor = stor->next;
+			}
+		}
+	} 
 	//count number of anagrams
-	stor = firstest;
+	node *stor = firstest;
 	int winner = 1, temporary = 1;
 	string winStr = stor->strSto, tempStr = "";
 	while (stor->next != NULL)
@@ -126,3 +117,27 @@ void main()
 	in.close();
 	_getch();
 }
+string alph(string input)					//organize a string into alphabetical characters (potato->aooptt)
+{
+	vector<char> aiauh;
+	for (int count = 0; count < input.length(); count++)
+		aiauh.push_back(input[count]);
+	sort(aiauh.begin(), aiauh.end());
+	for (int count = 0; count < input.length(); count++)
+		input[count] = aiauh[count];
+	/*bool flag=true;
+	while (flag == true)
+	{
+		flag = false;
+		for (int count = 0; count < input.length()-1; count++)
+		{
+			if (input[count] > input[count + 1])
+			{
+				swap(input[count], input[count + 1]);
+				flag = true;
+			}
+		}
+	}*/
+	return input;
+}
+

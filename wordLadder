@@ -1,0 +1,151 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<vector>
+using namespace std;
+struct treenode
+{
+	string word;
+	treenode* parent=NULL;
+	vector <treenode*> branch;
+	bool hasChecked = false;
+};
+struct llnode
+{
+	string word;
+	llnode* next=NULL;
+};
+void isOneOff(treenode*, llnode*);
+bool isRepeat(treenode*, string);
+treenode* nextThing(treenode*);
+void main()
+{
+	string first = "", last = " ";
+	while (first.length() != last.length())
+	{
+		cout << "Enter the starting word" << endl;
+		cin >> first;
+		cout << "Enter the ending word of same length of the starting word" << endl;
+		cin >> last;
+	}
+	for (int count = 0; count < first.length(); count++)
+	{
+		first[count] = tolower(first[count]);
+		last[count] = tolower(last[count]);
+	}
+	//create and populate list of possible through-words
+	char ministo;
+	string sto = "";
+	ifstream in;
+	llnode *lfirst, *lnew, *llast;
+	in.open("dictfile.txt");
+	lnew = new llnode;
+	lfirst = lnew;
+	llast = lnew;
+	while (!in.eof())
+	{
+		ministo = in.get();
+		if ((ministo >= 65 && ministo <= 90) || (ministo >= 97 && ministo <= 122))
+			sto += tolower(ministo);
+		else if (ministo == '\n'&&sto.length() > 0)
+		{
+			if (sto.length() == first.length())
+			{
+				llast->word = sto;
+				lnew = new llnode;
+				llast->next = lnew;
+				llast = lnew;
+			}
+			sto = "";
+		}
+	}
+	if (sto.length() == first.length())
+	{
+		llast->word = sto;
+		lnew = new llnode;
+		llast->next = lnew;
+		llast = lnew;
+	}
+	llast->word = last;
+	in.close();
+	//construct tree using list until last is placed
+	treenode *troot, *twork;
+	llnode *lread;
+	twork = new treenode;
+	troot = twork;
+	twork->word = first;
+	while (true)	//broken out of when match is made (yes I know it's bad practice leave me alone)
+	{
+		lread = lfirst;
+		isOneOff(twork, lread);
+		twork->hasChecked = true;
+		twork = nextThing(twork);
+		if (twork == NULL)
+			break;
+	}
+	_getch();
+}
+void isOneOff(treenode* twork, llnode* lread)
+{
+	treenode *tnew;
+	while (lread->next != NULL)
+	{
+		int lilflag = 0;
+		for (int count = 0; count < lread->word.length(); count++)
+		{
+			if (twork->word[count] != lread->word[count])
+				lilflag++;
+		}
+		if (lilflag == 1)
+		{
+			if (isRepeat(twork, lread->word) == false)
+			{
+				tnew = new treenode;
+				tnew->word = lread->word;
+				twork->branch.push_back(tnew);
+				tnew->parent = twork;
+			}
+		}
+		lread = lread->next;
+	}
+	int lilflag = 0;
+	for (int count = 0; count < lread->word.length(); count++)
+	{
+		if (twork->word[count] != lread->word[count])
+			lilflag++;
+	}
+	if (lilflag == 1)
+	{
+		if (isRepeat(twork, lread->word)==false)
+		{
+			tnew = new treenode;
+			tnew->word = lread->word;
+			twork->branch.push_back(tnew);
+			tnew->parent = twork;
+		}
+	}
+}
+bool isRepeat(treenode*twork, string checkthing)
+{
+	while (twork->parent != NULL)
+	{
+		if (twork->word == checkthing)
+			return true;
+		twork = twork->parent;
+	}
+	if (twork->word == checkthing)
+		return true;
+	else return false;
+}
+treenode* nextThing(treenode* twork)
+{
+	for (int count = 0; count < twork->branch.size(); count++)
+	{
+		if (twork->branch[count]->hasChecked == false)
+			return twork->branch[count];
+	}
+	if (twork->parent != NULL)
+		return nextThing(twork->parent);
+	else return NULL;
+}

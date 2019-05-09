@@ -7,27 +7,28 @@ using namespace std;
 struct treenode
 {
 	string word;
-	treenode* parent=NULL;
+	treenode* parent;
 	vector <treenode*> branch;
-	bool hasChecked = false;
+	bool hasChecked;
 };
 struct llnode
 {
 	string word;
-	llnode* next=NULL;
+	llnode* next;
 };
-void isOneOff(treenode*, llnode*);
+bool isOneOff(treenode*, llnode*, string);
 bool isRepeat(treenode*, string);
 treenode* nextThing(treenode*);
+treenode* findWord(treenode*, string);
 void main()
 {
 	string first = "", last = " ";
 	while (first.length() != last.length())
 	{
 		cout << "Enter the starting word" << endl;
-		cin >> first;
-		cout << "Enter the ending word of same length of the starting word" << endl;
 		cin >> last;
+		cout << "Enter the ending word of same length of the starting word" << endl;
+		cin >> first;
 	}
 	for (int count = 0; count < first.length(); count++)
 	{
@@ -41,6 +42,7 @@ void main()
 	llnode *lfirst, *lnew, *llast;
 	in.open("dictfile.txt");
 	lnew = new llnode;
+	lnew->next = NULL;
 	lfirst = lnew;
 	llast = lnew;
 	while (!in.eof())
@@ -54,6 +56,7 @@ void main()
 			{
 				llast->word = sto;
 				lnew = new llnode;
+				lnew->next = NULL;
 				llast->next = lnew;
 				llast = lnew;
 			}
@@ -64,29 +67,59 @@ void main()
 	{
 		llast->word = sto;
 		lnew = new llnode;
+		lnew->next = NULL;
 		llast->next = lnew;
 		llast = lnew;
 	}
-	llast->word = last;
+	llast->word = first;
 	in.close();
+	//parse ll for starting word
+	llnode *lread;
+	lread = lfirst;
+	while (lread->next != NULL)
+	{
+		if (lread->word == last)
+			lread->word = "word";
+		lread = lread->next;
+	}
+	if (lread->word == last)
+		lread->word = "word";
+	cout << "List of words constructed!  Starting on tree..." << endl;
 	//construct tree using list until last is placed
 	treenode *troot, *twork;
-	llnode *lread;
 	twork = new treenode;
+	twork->hasChecked = false;
+	twork->parent = NULL;
 	troot = twork;
 	twork->word = first;
-	while (true)	//broken out of when match is made (yes I know it's bad practice leave me alone)
+	while (true)	//broken out of when finished
 	{
 		lread = lfirst;
-		isOneOff(twork, lread);
+		if(isOneOff(twork, lread, last))
+			break;
 		twork->hasChecked = true;
 		twork = nextThing(twork);
 		if (twork == NULL)
 			break;
 	}
+	//read through tree and find one that works
+	cout << "Looking for the right path..."<<endl;
+	twork=findWord(troot, last);
+	if (twork == NULL)
+		cout << "Sorry, but there is no path from " << last << " to " << first << endl;
+	else
+	{
+		cout << "---" << endl;
+		while (twork->parent != NULL)
+		{
+			cout << twork->word << endl;
+			twork = twork->parent;
+		}
+		cout << twork->word << endl;
+	}
 	_getch();
 }
-void isOneOff(treenode* twork, llnode* lread)
+bool isOneOff(treenode* twork, llnode* lread, string last)
 {
 	treenode *tnew;
 	while (lread->next != NULL)
@@ -99,9 +132,12 @@ void isOneOff(treenode* twork, llnode* lread)
 		}
 		if (lilflag == 1)
 		{
+			if (lread->word == last)
+				return true;
 			if (isRepeat(twork, lread->word) == false)
 			{
 				tnew = new treenode;
+				tnew->hasChecked = false;
 				tnew->word = lread->word;
 				twork->branch.push_back(tnew);
 				tnew->parent = twork;
@@ -117,14 +153,16 @@ void isOneOff(treenode* twork, llnode* lread)
 	}
 	if (lilflag == 1)
 	{
-		if (isRepeat(twork, lread->word)==false)
+		if (isRepeat(twork, lread->word) == false)
 		{
 			tnew = new treenode;
+			tnew->hasChecked = false;
 			tnew->word = lread->word;
 			twork->branch.push_back(tnew);
 			tnew->parent = twork;
 		}
 	}
+	return false;
 }
 bool isRepeat(treenode*twork, string checkthing)
 {
@@ -148,4 +186,21 @@ treenode* nextThing(treenode* twork)
 	if (twork->parent != NULL)
 		return nextThing(twork->parent);
 	else return NULL;
+}
+treenode* findWord(treenode* twork, string lookinfor)
+{
+	treenode* stodo;
+	if (twork->word == lookinfor)
+		return twork;
+	else if(twork->branch.size()>0)
+	{
+		for (int count = 0; count < twork->branch.size(); count++)
+		{
+			stodo=findWord(twork->branch[count], lookinfor);
+			if(stodo!=NULL)
+				if (stodo->word == lookinfor)
+					return stodo;
+		}
+	}
+	return NULL;
 }

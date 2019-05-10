@@ -71,18 +71,18 @@ void main()
 		llast->next = lnew;
 		llast = lnew;
 	}
-	llast->word = first;
+	llast->word = last;
 	in.close();
 	//parse ll for starting word
 	llnode *lread;
 	lread = lfirst;
 	while (lread->next != NULL)
 	{
-		if (lread->word == last)
+		if (lread->word == first)
 			lread->word = "word";
 		lread = lread->next;
 	}
-	if (lread->word == last)
+	if (lread->word == first)
 		lread->word = "word";
 	cout << "List of words constructed!  Starting on tree..." << endl;
 	//construct tree using list until last is placed
@@ -91,7 +91,7 @@ void main()
 	twork->hasChecked = false;
 	twork->parent = NULL;
 	troot = twork;
-	twork->word = first;
+	troot->word = first;
 	while (true)	//broken out of when finished
 	{
 		lread = lfirst;
@@ -102,7 +102,9 @@ void main()
 		if (twork == NULL)
 			break;
 	}
-	//read through tree and find one that works
+	//read through tree and find one that works, output ridiculousness to file
+	ofstream out;
+	out.open("whee.txt");
 	cout << "Looking for the right path..."<<endl;
 	twork=findWord(troot, last);
 	if (twork == NULL)
@@ -113,10 +115,13 @@ void main()
 		while (twork->parent != NULL)
 		{
 			cout << twork->word << endl;
+			out << twork->word << endl;
 			twork = twork->parent;
 		}
 		cout << twork->word << endl;
+		out << twork->word;
 	}
+	out.close();
 	_getch();
 }
 bool isOneOff(treenode* twork, llnode* lread, string last)
@@ -133,7 +138,14 @@ bool isOneOff(treenode* twork, llnode* lread, string last)
 		if (lilflag == 1)
 		{
 			if (lread->word == last)
+			{
+				tnew = new treenode;
+				tnew->hasChecked = true;
+				tnew->word = lread->word;
+				twork->branch.push_back(tnew);
+				tnew->parent = twork;
 				return true;
+			}
 			if (isRepeat(twork, lread->word) == false)
 			{
 				tnew = new treenode;
@@ -153,6 +165,15 @@ bool isOneOff(treenode* twork, llnode* lread, string last)
 	}
 	if (lilflag == 1)
 	{
+		if (lread->word == last)
+		{
+			tnew = new treenode;
+			tnew->hasChecked = true;
+			tnew->word = lread->word;
+			twork->branch.push_back(tnew);
+			tnew->parent = twork;
+			return true;
+		}
 		if (isRepeat(twork, lread->word) == false)
 		{
 			tnew = new treenode;

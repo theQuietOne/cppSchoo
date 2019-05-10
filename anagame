@@ -1,0 +1,14 @@
+#include<iostream>
+#include<conio.h>
+#include<string>
+using namespace std;
+struct node
+{
+	node* next;
+	node* prev;
+	string word;
+};
+void main()
+{
+
+}

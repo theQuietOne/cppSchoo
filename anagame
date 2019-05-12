@@ -1,14 +1,150 @@
 #include<iostream>
+#include<fstream>
 #include<conio.h>
 #include<string>
+#include<time.h>
+#include<vector>
+#include<algorithm>
 using namespace std;
 struct node
 {
 	node* next;
-	node* prev;
 	string word;
 };
 void main()
 {
-
+	//create and populate full list of anagrams, ensuring no duplicates
+	node *firstful, *lastful, *newful;
+	ifstream wordz;
+	wordz.open("wordList.txt");
+	firstful = new node;
+	lastful = firstful;
+	newful = firstful;
+	getline(wordz, newful->word);
+	while (!wordz.eof())
+	{
+		string stordo;
+		getline(wordz, stordo);
+		if (stordo != newful->word)
+		{
+			newful = new node;
+			lastful->next = newful;
+			lastful = newful;
+			lastful->word = stordo;
+			lastful->next = NULL;
+		}
+	}
+	wordz.close();
+	//create list of anagrams
+	ifstream anagramz;
+	anagramz.open("anaList.txt");
+	node *firstan, *lastan, *newan;
+	newan = new node;
+	firstan = newan;
+	lastan = newan;
+	getline(anagramz, newan->word);
+	while (!anagramz.eof())
+	{
+		string stordo;
+		getline(anagramz, stordo);
+		if (stordo != newan->word)
+		{
+			newan = new node;
+			lastan->next = newan;
+			lastan = newan;
+			lastan->word = stordo;
+			lastan->next = NULL;
+		}
+	}
+	anagramz.close();
+	//find length of anagram list
+	node *readthru;
+	int anlistleng=1;
+	readthru = firstan;
+	while (readthru->next != NULL)
+	{
+		anlistleng++;
+		readthru = readthru->next;
+	}
+	//select random anagram from anagram list
+	srand(time(NULL));
+	int pos = 0;
+	pos = rand()%anlistleng;
+	readthru = firstan;
+	for (int count = 0; count < pos; count++)
+		readthru = readthru->next;
+	//find all words which match that anagram
+	string alphadoo, anagram = readthru->word;
+	vector<string> listdingus;
+	readthru = firstful;
+	while (readthru->next != NULL)
+	{
+		alphadoo=readthru->word;
+		sort(alphadoo.begin(), alphadoo.end());
+		if (alphadoo == anagram)
+			listdingus.push_back(readthru->word);
+		readthru = readthru->next;
+	}
+	alphadoo = readthru->word;
+	sort(alphadoo.begin(), alphadoo.end());
+	if (alphadoo == anagram)
+		listdingus.push_back(readthru->word);
+	//ask user which version of the game they want to play & number of guesses
+	int guessnum;
+	bool usergame;
+	cout << "Would you like to guess the words in addition to number of anagrams?" << endl << "(press 0 for only number, 1 for number and string)"<<endl;
+	cin >> usergame;
+	cout << "How many guesses would you like?" << endl;
+	cin >> guessnum;
+	//print letters of anagram & do only the number thing
+	bool win=false;
+	int userguess;
+	cout << "The letters you have to work with are " << anagram<<endl<<"How many anagrams can be made with those letters?"<<endl;
+	for (int duration = guessnum; duration > 0; duration--)
+	{
+		cout << "You have " << duration << " guesses remaining" << endl;
+		cin >> userguess;
+		if (userguess == listdingus.size())
+		{
+			win = true;
+			break;
+		}
+		else if (userguess > listdingus.size())
+			cout << "Too high!  Try again!"<<endl;
+		else if (userguess > listdingus.size())
+			cout << "Too low!  Try again!"<<endl;
+	}
+	//deal with results
+	if (win)
+		cout << "You got it right!  There were " << listdingus.size() << " anagrams!  ";
+	else if(!win)
+		cout << "Sorry!  There were " << listdingus.size() << " anagrams.  ";
+	if (!usergame)
+	{
+		cout << "They were:" << endl;
+		for (int count = 0; count < listdingus.size(); count++)
+			cout << listdingus[count] << endl;
+	}
+	if (usergame)
+	{
+		cout << "Guess what they were!" << endl;
+		vector<string> userin;
+		for (int count = 0;count< listdingus.size();count++)
+		{
+			string quicksto;
+			cin >> quicksto;
+			userin.push_back(quicksto);
+		}
+		int numright = 0;
+		for (int count = 0; count < listdingus.size(); count++)
+		{
+			for (int stringcheck = 0; stringcheck < listdingus.size(); stringcheck++)
+				if (userin[stringcheck] == listdingus[count])
+					numright++;
+		}
+		cout << "You got " << numright << " anagrams correct!  The actual words were:" << endl;
+		for (int count = 0; count < listdingus.size(); count++)
+			cout << listdingus[count] << endl;
+	}
+	_getch();
 }

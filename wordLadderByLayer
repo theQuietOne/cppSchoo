@@ -1,0 +1,235 @@
+#include<conio.h>
+#include<iostream>
+#include<string>
+#include<fstream>
+#include<vector>
+using namespace std;
+struct treenode
+{
+	string word;
+	treenode* parent;
+	vector <treenode*> branch;
+	bool hasChecked;
+	int layer;
+};
+struct llnode
+{
+	string word;
+	llnode* next;
+};
+bool isOneOff(treenode*, llnode*, string);
+bool isRepeat(treenode*, string);
+treenode* nextThing(treenode*, llnode*, string);
+treenode* findWord(treenode*, string);
+void main()
+{
+	//user input
+	string first = "", last = " ";
+	while (first.length() != last.length())
+	{
+		cout << "Enter the starting word" << endl;
+		cin >> first;
+		cout << "Enter the ending word of same length of the starting word" << endl;
+		cin >> last;
+	}
+	for (int count = 0; count < first.length(); count++)
+	{
+		first[count] = tolower(first[count]);
+		last[count] = tolower(last[count]);
+	}
+	//construct linked list
+	char ministo;
+	string sto = "";
+	ifstream in;
+	llnode *lfirst, *lnew, *llast;
+	in.open("dictfile.txt");
+	lnew = new llnode;
+	lnew->next = NULL;
+	lfirst = lnew;
+	llast = lnew;
+	while (!in.eof())
+	{
+		ministo = in.get();
+		if ((ministo >= 65 && ministo <= 90) || (ministo >= 97 && ministo <= 122))
+			sto += tolower(ministo);
+		else if (ministo == '\n'&&sto.length() > 0)
+		{
+			if (sto.length() == first.length())
+			{
+				llast->word = sto;
+				lnew = new llnode;
+				lnew->next = NULL;
+				llast->next = lnew;
+				llast = lnew;
+			}
+			sto = "";
+		}
+	}
+	if (sto.length() == first.length())
+	{
+		llast->word = sto;
+		lnew = new llnode;
+		lnew->next = NULL;
+		llast->next = lnew;
+		llast = lnew;
+	}
+	llast->word = last;
+	in.close();
+	//ensure starting word does not appear in linked list
+	llnode *lread;
+	lread = lfirst;
+	while (lread->next != NULL)
+	{
+		if (lread->word == first)
+			lread->word == "word";
+		lread = lread->next;
+	}
+	//construct tree
+	treenode *troot, *twork;
+	troot = new treenode;
+	troot->hasChecked = false;
+	troot->parent = NULL;
+	troot->word = first;
+	troot->layer = 1;
+	twork = troot;
+	lread = lfirst;
+	if (!isOneOff(twork, lfirst, last))	//final word not found
+	{
+		twork->hasChecked == true;
+		twork = nextThing(troot, lfirst, last);
+	}
+	//read through tree and find one that works
+	cout << "Looking for the right path..." << endl;
+	twork = findWord(troot, last);
+	if (twork == NULL)
+		cout << "Sorry, but there is no path from " << first << " to " << last << endl;
+	else
+	{
+		cout << "---" << endl;
+		while (twork->parent != NULL)
+		{
+			cout << twork->word << endl;
+			twork = twork->parent;
+		}
+		cout << twork->word << endl;
+	}
+	_getch();
+}
+bool isOneOff(treenode* twork, llnode* lread, string lookinfor)
+{
+	//search for words which are one off, returns true if final word is matched up
+	treenode *tnew;
+	while (lread->next != NULL)
+	{
+		int lilflag = 0;
+		for (int count = 0; count < lread->word.length(); count++)
+		{
+			if (twork->word[count] != lread->word[count])
+				lilflag++;
+		}
+		if (lilflag == 1)
+		{
+			//found match, add to tree:
+			if (lread->word == lookinfor)//if same as last word, ends
+			{
+				tnew = new treenode;
+				tnew->layer = tnew->parent->layer++;
+				tnew->hasChecked = true;
+				tnew->word = lread->word;
+				twork->branch.push_back(tnew);
+				tnew->parent = twork;
+				return true;
+			}
+			if (isRepeat(twork, lread->word) == false)//if it isn't a repeat of a previous word on that branch
+			{
+				tnew = new treenode;
+				tnew->hasChecked = false;
+				tnew->word = lread->word;
+				twork->branch.push_back(tnew);
+				tnew->parent = twork;
+				tnew->layer = tnew->parent->layer++;
+			}
+		}
+		lread = lread->next;
+	}
+	//same process for last word in ll
+	int lilflag = 0;
+	for (int count = 0; count < lread->word.length(); count++)
+	{
+		if (twork->word[count] != lread->word[count])
+			lilflag++;
+	}
+	if (lilflag == 1)
+	{
+		if (lread->word == lookinfor)
+		{
+			tnew = new treenode;
+			tnew->hasChecked = true;
+			tnew->word = lread->word;
+			twork->branch.push_back(tnew);
+			tnew->parent = twork;
+			tnew->layer = tnew->parent->layer++;
+			return true;
+		}
+		if (isRepeat(twork, lread->word) == false)
+		{
+			tnew = new treenode;
+			tnew->hasChecked = false;
+			tnew->word = lread->word;
+			twork->branch.push_back(tnew);
+			tnew->parent = twork;
+			tnew->layer = tnew->parent->layer++;
+		}
+	}
+	//returns false if final word is not found
+	return false;
+}
+bool isRepeat(treenode* twork, string lookinfor)
+{
+	while (twork->parent != NULL)
+	{
+		if (twork->word == lookinfor)
+			return true;
+		twork = twork->parent;
+	}
+	if (twork->word == lookinfor)
+		return true;
+	else return false;
+}
+treenode* nextThing(treenode* twork, llnode* lread, string lookinfor)
+{
+	for (int count = 0; count < twork->branch.size(); count++) //go through children of node, build them out
+	{
+		if (twork->branch[count]->hasChecked = false)
+			if (isOneOff(twork->branch[count], lread, lookinfor))
+			{
+				return NULL;
+			}
+	}
+	//go down a layer, go through it recursively
+	for (int count = 0; count < twork->branch.size(); count++)
+	{
+		treenode* sto;
+		sto=nextThing(twork->branch[count], lread, lookinfor);
+		if (sto == NULL)
+			return NULL;
+	}
+	return NULL;
+}
+treenode* findWord(treenode* twork, string lookinfor)
+{
+	treenode* stodo;
+	if (twork->word == lookinfor)
+		return twork;
+	else if (twork->branch.size() > 0)
+	{
+		for (int count = 0; count < twork->branch.size(); count++)
+		{
+			stodo = findWord(twork->branch[count], lookinfor);
+			if (stodo != NULL)
+				if (stodo->word == lookinfor)
+					return stodo;
+		}
+	}
+	return NULL;
+}

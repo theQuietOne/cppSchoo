@@ -4,6 +4,7 @@
 #include<fstream>
 #include<vector>
 using namespace std;
+int layer = 1;
 struct treenode
 {
 	string word;
@@ -19,8 +20,8 @@ struct llnode
 };
 bool isOneOff(treenode*, llnode*, string);
 bool isRepeat(treenode*, string);
-treenode* nextThing(treenode*, llnode*, string);
 treenode* findWord(treenode*, string);
+void zigzag(treenode*, int, llnode*, string);
 void main()
 {
 	//user input
@@ -87,7 +88,7 @@ void main()
 	//construct tree
 	treenode *troot, *twork;
 	troot = new treenode;
-	troot->hasChecked = false;
+	troot->hasChecked = true;
 	troot->parent = NULL;
 	troot->word = first;
 	troot->layer = 1;
@@ -96,7 +97,11 @@ void main()
 	if (!isOneOff(twork, lfirst, last))	//final word not found
 	{
 		twork->hasChecked == true;
-		twork = nextThing(troot, lfirst, last);
+		while (layer != 0)
+		{
+			zigzag(troot, 1, lfirst, last);
+			layer++;
+		}
 	}
 	//read through tree and find one that works
 	cout << "Looking for the right path..." << endl;
@@ -117,6 +122,7 @@ void main()
 }
 bool isOneOff(treenode* twork, llnode* lread, string lookinfor)
 {
+	twork->hasChecked = true;
 	//search for words which are one off, returns true if final word is matched up
 	treenode *tnew;
 	while (lread->next != NULL)
@@ -133,7 +139,6 @@ bool isOneOff(treenode* twork, llnode* lread, string lookinfor)
 			if (lread->word == lookinfor)//if same as last word, ends
 			{
 				tnew = new treenode;
-				tnew->layer = tnew->parent->layer++;
 				tnew->hasChecked = true;
 				tnew->word = lread->word;
 				twork->branch.push_back(tnew);
@@ -196,25 +201,25 @@ bool isRepeat(treenode* twork, string lookinfor)
 		return true;
 	else return false;
 }
-treenode* nextThing(treenode* twork, llnode* lread, string lookinfor)
+void zigzag(treenode* twork, int currlayer, llnode* lread, string lookinfor)
 {
-	for (int count = 0; count < twork->branch.size(); count++) //go through children of node, build them out
+	if (layer == -1)
+		layer = -1;
+	else if (currlayer == layer)
 	{
-		if (twork->branch[count]->hasChecked = false)
-			if (isOneOff(twork->branch[count], lread, lookinfor))
-			{
-				return NULL;
-			}
+		for (int count = 0; count < twork->branch.size(); count++)
+		{
+			if (twork->branch[count]->hasChecked == false)
+				if (isOneOff(twork->branch[count], lread, lookinfor))
+				{
+					layer = -1;
+					break;
+				}
+		}
 	}
-	//go down a layer, go through it recursively
-	for (int count = 0; count < twork->branch.size(); count++)
-	{
-		treenode* sto;
-		sto=nextThing(twork->branch[count], lread, lookinfor);
-		if (sto == NULL)
-			return NULL;
-	}
-	return NULL;
+	else if (currlayer < layer)
+		for(int count = 0; count < twork->branch.size(); count++)
+			zigzag(twork->branch[count], currlayer+1, lread, lookinfor);
 }
 treenode* findWord(treenode* twork, string lookinfor)
 {

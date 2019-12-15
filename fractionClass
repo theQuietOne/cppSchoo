@@ -1,49 +1,114 @@
 //header file
-public class Fraction{
-    private int fractNum, fractDenom;
-    Fraction()
-    {
-        fractNum=0;
-        fractDenom=0;
-    }
-    Fraction(int num, int denum)
-    {
+#pragma once
+#include<string>
+#include<iostream>
+using namespace std;
+#ifndef _FRACTIONS_
+#define _FRACTIONS_
+
+class Fractions {
+public:
+	//Constructor
+	Fractions();
+	Fractions(int, int);
+	Fractions(string);
+	//calculate
+	Fractions reduce(void);
+	Fractions multFrac(Fractions);
+	Fractions divideFrac(Fractions);
+	int wholeFind(Fractions);
+	Fractions addFrac(Fractions);
+	Fractions subtractFrac(Fractions);
+	bool equalFrac(Fractions);
+	bool isLessThanFrac(Fractions);
+	bool isGreaterThanFrac(Fractions);
+	//accessors
+	string showFrac();
+	void setFrac(string);
+	void setNum(int);
+	void setDenom(int);
+	int showDenom();
+	int showNum();
+	Fractions copyFrac(Fractions);
+	void clearFrac();
+
+private:
+	int fractNum;		//numerator
+	int fractDenom;		//denominator
+};
+
+Fractions operator*(Fractions, Fractions);
+Fractions operator/(Fractions, Fractions);
+Fractions operator+(Fractions, Fractions);
+Fractions operator-(Fractions, Fractions);
+bool operator<(Fractions, Fractions);
+bool operator<=(Fractions, Fractions);
+bool operator>(Fractions, Fractions);
+bool operator>=(Fractions, Fractions);
+ostream& operator<<(ostream&, Fractions&);
+#endif 
+
+//resource file
+
+#include "Fractions.h"
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+//constructors
+Fractions::Fractions() 
+{
+	fractNum = 0;
+	fractDenom = 1;
+}
+Fractions::Fractions(int num, int denum)
+{
 	fractNum = num;
 	fractDenom = denum;
-    }
-    Fraction(String frati)				//constructs class with predetermined value; format is below
-    {
+}
+Fractions::Fractions(string frat)				//constructs class with predetermined value; format is below
+{
 	//format is <mixed&>num/denom
-       char[] frat=frati.toCharArray();
-       String sto="";
-       int intsto=0;
-       for(char c:frat)
-       {
-           if(c=='&')
-           {
-               intsto=Integer.parseInt(sto);
-               sto="";
-           }
-           else if(c=='/')
-           {
-                fractNum=Integer.parseInt(sto);
-                sto="";
-           }
-           else
-               sto+=c;
-       }
-       fractDenom=Integer.parseInt(sto);
-       fractNum+=intsto*fractDenom;
-    }
-    Fraction reduce()
-    {
-        Fraction frac=new Fraction();
+	string flag = "";
+	int divplace = 0, andplace = 0;
+	for (int count = 0; count < frat.length(); count++)
+	{
+		if (frat[count] == '/')
+		{
+			flag += '/';
+			divplace = count;
+		}
+		else if (frat[count] == '&')
+		{
+			flag += '&';
+			andplace = count;
+		}
+	}
+	if (flag == "/")
+	{
+		fractNum = stoi(frat.substr(0, divplace));
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
+	}
+	else if (flag == "&/")
+	{
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
+		fractNum = stoi(frat.substr(andplace + 1, divplace - (andplace + 1)))+ fractDenom*stoi(frat.substr(0, andplace));
+	}
+	else
+	{
+		cout << "ERROR: invalid format";
+	}
+}
+//operations
+Fractions Fractions::reduce(void)				//reduces fraction, ex. 4/8 to 1/2
+{
+	Fractions redo;
 	int biggest;
 	if (fractNum < fractDenom)
 		biggest = fractDenom;
 	else
 		biggest = fractNum;
-	boolean flag = true;
+	bool flag = true;
 	while (flag == true)
 	{
 		flag = false;
@@ -56,32 +121,33 @@ public class Fraction{
 				flag = true;
 			}
 		}
-        }
-        frac.fractNum=fractNum;
-        frac.fractDenom=fractDenom;
-        return frac;
-    }
-    Fraction multFrac(Fraction multdo)	//multiplies two fractions together
-    {
-	Fraction multing=new Fraction();
+	}
+	redo.fractNum = fractNum;
+	redo.fractDenom = fractDenom;
+	return redo;
+	//return something!!!!!!;
+}
+Fractions Fractions::multFrac(Fractions multdo)	//multiplies two fractions together
+{
+	Fractions multing;
 	multing.fractNum = fractNum * multdo.fractNum;
 	multing.fractDenom = fractDenom * multdo.fractDenom;
 	return multing;
-    }
-    Fraction divideFrac(Fraction divdo)//divides one fraction by another
-    {
-	Fraction diving=new Fraction();
+}
+Fractions Fractions::divideFrac(Fractions divdo)//divides one fraction by another
+{
+	Fractions diving;
 	diving.fractNum = fractNum * divdo.fractDenom;
 	diving.fractDenom = fractDenom * divdo.fractNum;
 	return diving;
-    }
-    int wholeFind(Fraction mixmake)			//returns whole number which would be associated with fraction value (IE 2 for 7/3)
-    {
+}
+int Fractions::wholeFind(Fractions mixmake)			//returns whole number which would be associated with fraction value (IE 2 for 7/3)
+{
 	return mixmake.fractNum / mixmake.fractDenom;
-    }
-    Fraction addFrac(Fraction adddo)	//adds two fractions together
-    {
-	Fraction added=new Fraction();
+}
+Fractions Fractions::addFrac(Fractions adddo)	//adds two fractions together
+{
+	Fractions added;
 	int num = fractDenom;
 	fractNum *= adddo.fractDenom;
 	fractDenom *= adddo.fractDenom;
@@ -90,10 +156,10 @@ public class Fraction{
 	added.fractNum = fractNum + adddo.fractNum;
 	added.fractDenom = fractDenom;
 	return added;
-    }
-    Fraction subtractFrac(Fraction subdo)//subtracts one fraction from another
-    {
-	Fraction subded=new Fraction();
+}
+Fractions Fractions::subtractFrac(Fractions subdo)//subtracts one fraction from another
+{
+	Fractions subded;
 	int num = fractDenom;
 	fractNum *= subdo.fractDenom;
 	fractDenom *= subdo.fractDenom;
@@ -102,83 +168,319 @@ public class Fraction{
 	subded.fractNum = fractNum-subdo.fractNum;
 	subded.fractDenom = fractDenom;
 	return subded;
-    }
-    boolean equalFrac(Fraction comparedo)		//determines if two fractions are equal
-    {
+}
+//comparisons
+bool Fractions::equalFrac(Fractions comparedo)		//determines if two fractions are equal
+{
 	float num1=fractNum, num2=comparedo.fractNum, denom1=fractDenom, denom2=comparedo.fractDenom;
 	return (num1 / denom1 == num2 / denom2);
-    }
-    boolean isLessThanFrac(Fraction comparedo)	//determines if a fraction is less than another
-    {
+}
+bool Fractions::isLessThanFrac(Fractions comparedo)	//determines if a fraction is less than another
+{
 	float num1 = fractNum, num2 = comparedo.fractNum, denom1 = fractDenom, denom2 = comparedo.fractDenom;
 	return (num1 / denom1 < num2 / denom2);
-    }
-    boolean isGreaterThanFrac(Fraction comparedo)//determines if a fraction is greater than another
-    {
+}
+bool Fractions::isGreaterThanFrac(Fractions comparedo)//determines if a fraction is greater than another
+{
 	float num1 = fractNum, num2 = comparedo.fractNum, denom1 = fractDenom, denom2 = comparedo.fractDenom;
 	return (num1 / denom1 > num2 / denom2);
-    }
-    String showFrac()						//returns the current content of the object
-    {
+}
+//accessors
+string Fractions::showFrac()						//returns the current content of the object
+{
 	return ((fractNum) + "/" + (fractDenom));
-    }
-    void setFrac(String frati)						//changes values of numerator and denominator simultaniously
-    {
-        char[] frat=frati.toCharArray();
-       String sto="";
-       int intsto=0;
-       for(char c:frat)
-       {
-           if(c=='&')
-           {
-               intsto=Integer.parseInt(sto);
-               sto="";
-           }
-           else if(c=='/')
-           {
-                fractNum=Integer.parseInt(sto);
-                sto="";
-           }
-           else
-               sto+=c;
-       }
-       fractDenom=Integer.parseInt(sto);
-       fractNum+=intsto*fractDenom;
-    }
-    void setNum(int num)							//sets numerator to a value
-    {
+}
+void Fractions::setFrac(string frat)						//changes values of numerator and denominator simultaniously
+{
+	//same code as constructor, so if constructor is buggy this will be too
+	//format is <mixed&>num/denom
+	string flag = "";
+	int divplace = 0, andplace = 0;
+	for (int count = 0; count < frat.length(); count++)
+	{
+		if (frat[count] == '/')
+		{
+			flag += '/';
+			divplace = count;
+		}
+		else if (frat[count] == '&')
+		{
+			flag += '&';
+			andplace = count;
+		}
+	}
+	if (flag == "/")
+	{
+		fractNum = stoi(frat.substr(0, divplace));
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
+	}
+	else if (flag == "&/")
+	{
+		fractDenom = stoi(frat.substr(divplace + 1, frat.length() - (divplace + 1)));
+		fractNum = stoi(frat.substr(andplace + 1, divplace - (andplace + 1))) + fractDenom * stoi(frat.substr(0, andplace));
+	}
+	else
+	{
+		cout << "ERROR: invalid format";
+	}
+}
+void Fractions::setNum(int num)							//sets numerator to a value
+{
 	fractNum = num;
-    }
-    void setDenom(int den)						//sets denominator to a value
-    {
+}
+void Fractions::setDenom(int den)						//sets denominator to a value
+{
 	fractDenom = den;
-    }
-    int showDenom()							//returns current value of denominator
-    {
+}
+int Fractions::showDenom()							//returns current value of denominator
+{
 	return fractDenom;
-    }
-    int showNum()							//returns current value of numerator
-    {
+}
+int Fractions::showNum()							//returns current value of numerator
+{
 	return fractNum;
-    }
-    void copyFrac(Fraction setdo)			//sets fraction's value to passed fraction
-    {
+}
+Fractions Fractions::copyFrac(Fractions setdo)			//sets fraction's value to passed fraction
+{
 	fractNum = setdo.fractNum;
 	fractDenom = setdo.fractDenom;
-    }
-    void clearFrac()							//sets fraction to 0/1
-    {
-        fractNum = 0;
-        fractDenom = 1;
-    }
+	return setdo;
 }
-//main
-public class runFrac {
-    public static void main(String[]args)
-    {
-        int num, stoint;
-           Fraction A=new Fraction();
-           Fraction B=new Fraction(2,3);
-           Fraction C=new Fraction("1&3/7");
-    }
+void Fractions::clearFrac()							//sets fraction to 0/1
+{
+	fractNum = 0;
+	fractDenom = 1;
+}
+//operators		note: all of these were poorly explained by instructor and I don't understand how the final operator works
+Fractions operator*(Fractions first, Fractions second)			//multiplies two fractions
+{
+	return first.multFrac(second);
+}
+Fractions operator/(Fractions first, Fractions second)			//divides two fractions
+{
+	return first.divideFrac(second);
+}
+Fractions operator+(Fractions first, Fractions second)			//adds two fractions
+{
+	return first.addFrac(second);
+}
+Fractions operator-(Fractions first, Fractions second)			//subtracts two fractions
+{
+	return first.subtractFrac(second);
+}
+
+bool operator<(Fractions first, Fractions second)				//determines if a fraction is less than another 
+{
+	return first.isLessThanFrac(second);
+}
+bool operator<=(Fractions first, Fractions second)				//determines if a fraction is less than or equal to another
+{
+	return (first.isLessThanFrac(second) || first.equalFrac(second));
+}
+bool operator>(Fractions first, Fractions second)				//determines if a fraction is greater than another
+{
+	return first.isGreaterThanFrac(second);
+}
+bool operator>=(Fractions first, Fractions second)				//determines if a fraction is greater than or equal to another
+{
+	return (first.isGreaterThanFrac(second) || first.equalFrac(second));
+}
+ostream& operator<<(ostream& os, Fractions& frac)			//allows use of iostream operators with Fractions, probably
+{
+	if(frac.showDenom()==0)
+		os<<"DIVIDE BY ZERO ERROR";
+	else if ((frac.showNum())/(frac.showDenom()) > 1)
+	{
+		char str[255];
+		string potato="";
+		potato+=itoa(frac.wholeFind(frac),str,10);
+		potato+="&";
+		potato+=itoa(frac.showNum() - frac.wholeFind(frac)*frac.showDenom(),str,10);
+		potato+="/";
+		potato+=itoa(frac.showDenom(),str,10);
+		os << potato;
+	}
+	else
+	{
+		char str[255];
+		string potato="";
+		string blep;
+		potato+=itoa(frac.showNum(),str,10);
+		potato+="/";
+		potato+=itoa(frac.showDenom(),str,10);
+		os << potato;
+	}
+	return os;
+}
+
+//demonstration program
+#include<conio.h>
+#include<iostream>
+#include<string>
+using namespace std;
+#include "Fractions.h"
+void main()
+{
+	int num, stoint;
+	Fractions A, B (2, 3), C("1&3/7");
+	string storage = "";
+	cout << "Enter the number which corresponds to your test!"<<endl;
+	cin >> num;
+	while (num != 0)
+	{
+		switch (num)
+		{
+		case 1:
+			A.reduce();
+			break;
+		case 2:
+			B.reduce();
+			break;
+		case 3:
+			C.reduce();
+			break;
+		case 4:
+			C = A.multFrac(B);
+			break;
+		case 5:
+			C = A.divideFrac(B);
+			break;
+		case 6:
+			A.wholeFind(A);
+			break;
+		case 7:
+			B.wholeFind(B);
+			break;
+		case 8:
+			C.wholeFind(C);
+			break;
+		case 9:
+			C = A.addFrac(B);
+			break;
+		case 10:
+			C = A.subtractFrac(B);
+			break;
+		case 11:
+			C = A + B;
+			break;
+		case 12:
+			cout << A.equalFrac(B);
+			break;
+		case 13:
+			cout << A.isLessThanFrac(B);
+			break;
+		case 14:
+			cout << (B < A);
+			break;
+		case 15:
+			cout << A.isGreaterThanFrac(B);
+			break;
+		case 16:
+			cout << (B > A);
+			break;
+		case 17:
+			cout<<A.showFrac();
+			break;
+		case 18:
+			cout<<B.showFrac();
+			break;
+		case 19:
+			cout<<C.showFrac();
+			break;
+		case 20:
+			cin >> storage;
+			A.setFrac(storage);
+			break;
+		case 21:
+			cin >> storage;
+			B.setFrac(storage);
+			break;
+		case 22:
+			cin >> storage;
+			C.setFrac(storage);
+			break;
+		case 23:
+			cin >> stoint;
+			A.setNum(stoint);
+			break;
+		case 24:
+			cin >> stoint;
+			B.setNum(stoint);
+			break;
+		case 25:
+			cin >> stoint;
+			C.setNum(stoint);
+			break;
+		case 26:
+			cin >> stoint;
+			A.setDenom(stoint);
+			break;
+		case 27:
+			cin >> stoint;
+			B.setDenom(stoint);
+			break;
+		case 28:
+			cin >> stoint;
+			C.setDenom(stoint);
+			break;
+		case 29:
+			A.showNum();
+			break;
+		case 30:
+			B.showNum();
+			break;
+		case 31:
+			C.showNum();
+			break;
+		case 32:
+			A.showDenom();
+			break;
+		case 33:
+			B.showDenom();
+			break;
+		case 34:
+			C.showDenom();
+			break;
+		case 35:
+			A.copyFrac(B);
+			break;
+		case 36:
+			B.copyFrac(A);
+			break;
+		case 37:
+			A.copyFrac(C);
+			break;
+		case 38:
+			C.copyFrac(A);
+			break;
+		case 39:
+			B.copyFrac(C);
+			break;
+		case 40:
+			C.copyFrac(B);
+			break;
+		case 41:
+			A.clearFrac();
+			break;
+		case 42:
+			B.clearFrac();
+			break;
+		case 43:
+			C.clearFrac();
+			break;
+		case 44:
+			cout << A;
+			break;
+		case 45:
+			cout << B;
+			break;
+		case 46:
+			cout << C;
+			break;
+		default:
+			cout<<"Looks like that doesn't exist.  ";
+		}
+		cout << endl << "Enter the number which corresponds to your test!" << endl;
+		cin >> num;
+	}
 }
